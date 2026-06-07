@@ -1,6 +1,5 @@
 import datetime
 from django import forms
-from django.core.validators import MinValueValidator
 from .models import College, Branch, Subject, SEMESTER_CHOICES, YEAR_CHOICES, EXAM_TYPE_CHOICES
 
 
@@ -45,11 +44,11 @@ class question_paper_form(forms.Form):
         }),
     )
     date = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        validators=[MinValueValidator(
-            limit_value=datetime.date.today,
-            message="Invalid date. Please select today or a future date."
-        )],
+        widget=forms.DateInput(attrs={
+            'class': 'form-control',
+            'type': 'date',
+            'min': datetime.date.today().isoformat(),
+        }),
     )
     qb = forms.FileField(
         widget=forms.FileInput(attrs={'class': 'form-control', 'accept': '.csv'}),
@@ -57,6 +56,7 @@ class question_paper_form(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['date'].widget.attrs['min'] = datetime.date.today().isoformat()
         if 'college_name' in self.data:
             try:
                 college_id = int(self.data.get('college_name'))

@@ -87,6 +87,7 @@
             <div class="col-md-6">
               <label class="section-label">Exam Date</label>
               {{ form.date }}
+              {% if form.date.errors %}<div class="text-danger small mt-1">{{ form.date.errors|join:", " }}</div>{% endif %}
             </div>
           </div>
 

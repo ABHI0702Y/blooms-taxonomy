@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block extra_head %}
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 40%, #3730a3 80%, #4f46e5 100%);
+    color: #fff; min-height: 88vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(245,158,11,.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-section h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+  .hero-section p  { font-size: 1.15rem; opacity: .85; }
+  .hero-badge { background: rgba(245,158,11,.25); border: 1px solid rgba(245,158,11,.5); border-radius: 30px; padding: 6px 16px; font-size: .8rem; display: inline-block; margin-bottom: 1.2rem; color: #fde68a; }
+  .stat-card { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 1.4rem; text-align: center; backdrop-filter: blur(8px); }
+  .stat-card h2 { font-size: 2.5rem; font-weight: 800; margin: 0; color: #f59e0b; }
+  .stat-card p  { margin: 0; opacity: .8; font-size: .85rem; }
+  .feature-card { background: #fff; border-radius: 14px; padding: 2rem 1.5rem; text-align: center; box-shadow: 0 4px 24px rgba(79,70,229,.12); height: 100%; border: 1px solid #ede9fe; transition: .2s; }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(79,70,229,.2); }
+  .feature-icon { width: 64px; height: 64px; background: linear-gradient(135deg,#1e1b4b,#4f46e5); border-radius: 16px;
+                  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; }
+  .feature-icon i { font-size: 1.8rem; color: #f59e0b; }
+  .blooms-badge { font-size: .75rem; border-radius: 20px; padding: 3px 12px; font-weight: 600; }
+  .steps-section { background: #fff; }
+  .step-num { width: 42px; height: 42px; background: linear-gradient(135deg,#3730a3,#4f46e5); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(79,70,229,.4); }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Hero -->
+<section class="hero-section">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-badge"><i class="bi bi-lightning-fill me-1"></i>AI-Powered &bull; Bloom's Taxonomy Aligned</div>
+        <h1>Smart Question Paper Generator for Universities</h1>
+        <p class="mt-3">Automatically generate Bloom's Taxonomy-aligned question papers from your question bank using machine learning. Covers Remember, Understand, Apply, Analyse, Evaluate &amp; Create levels.</p>
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+          {% if user.is_authenticated %}
+            <a href="/dashboard" class="btn btn-light btn-lg px-4 fw-bold">Go to Dashboard <i class="bi bi-arrow-right ms-1"></i></a>
+            <a href="/history"   class="btn btn-outline-light btn-lg px-4">View History</a>
+          {% else %}
+            <a href="/register" class="btn btn-light btn-lg px-4 fw-bold">Get Started <i class="bi bi-arrow-right ms-1"></i></a>
+            <a href="/log_in"   class="btn btn-outline-light btn-lg px-4">Log In</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6"><div class="stat-card"><h2>{{ stats.colleges }}</h2><p>Universities Registered</p></div></div>
+          <div class="col-6"><div class="stat-card"><h2>{{ stats.subjects }}</h2><p>Subjects Configured</p></div></div>
+          <div class="col-6"><div class="stat-card"><h2>{{ stats.papers }}</h2><p>Papers Generated</p></div></div>
+          <div class="col-6"><div class="stat-card"><h2>840+</h2><p>Training Questions</p></div></div>
+        </div>
+        <div class="mt-3 d-flex gap-2 flex-wrap justify-content-center">
+          <span class="badge blooms-badge bg-primary">Remember</span>
+          <span class="badge blooms-badge bg-info">Understand</span>
+          <span class="badge blooms-badge bg-success">Apply</span>
+          <span class="badge blooms-badge bg-warning text-dark">Analyse</span>
+          <span class="badge blooms-badge bg-danger">Evaluate</span>
+          <span class="badge blooms-badge bg-secondary">Create</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-2" style="color:#1e1b4b">Why Use Bloom's QPG?</h2>
+    <p class="text-center text-muted mb-5">Built for faculty — powered by AI</p>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-cpu"></i></div>
+          <h5 class="fw-bold">AI-Powered Classification</h5>
+          <p class="text-muted small">Machine learning model trained on 840+ university questions automatically classifies each question by Bloom's level and marks.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-building-fill-check"></i></div>
+          <h5 class="fw-bold">Multi-University Support</h5>
+          <p class="text-muted small">Supports multiple colleges, branches, and subjects. Admin can add any university and configure its curriculum dynamically.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-file-earmark-check"></i></div>
+          <h5 class="fw-bold">Balanced Papers</h5>
+          <p class="text-muted small">Generates balanced question papers with 2 questions each from 4, 5, 6, 7, and 8-mark categories for fair assessment.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-printer"></i></div>
+          <h5 class="fw-bold">Print Ready</h5>
+          <p class="text-muted small">Generated papers are formatted for direct printing with proper exam header, instructions, and mark scheme.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-clock-history"></i></div>
+          <h5 class="fw-bold">Paper History</h5>
+          <p class="text-muted small">All generated papers are saved. Browse, reprint, or review any past question paper from the history page.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+          <h5 class="fw-bold">Secure Access</h5>
+          <p class="text-muted small">Role-based access with faculty login. Only authenticated users can generate and view papers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="steps-section py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5" style="color:#1e1b4b">How It Works</h2>
+    <div class="row justify-content-center g-4">
+      <div class="col-md-3 text-center">
+        <div class="step-num mx-auto mb-3">1</div>
+        <h6 class="fw-bold">Upload Question Bank</h6>
+        <p class="text-muted small">Upload a CSV with columns: <code>question</code>, <code>marks</code></p>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="step-num mx-auto mb-3">2</div>
+        <h6 class="fw-bold">Fill Exam Details</h6>
+        <p class="text-muted small">Select college, branch, semester, subject, exam type, and date</p>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="step-num mx-auto mb-3">3</div>
+        <h6 class="fw-bold">AI Generates Paper</h6>
+        <p class="text-muted small">ML model classifies questions and builds a balanced paper</p>
+      </div>
+      <div class="col-md-3 text-center">
+        <div class="step-num mx-auto mb-3">4</div>
+        <h6 class="fw-bold">Print or Download</h6>
+        <p class="text-muted small">Print directly from browser or save as PDF</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

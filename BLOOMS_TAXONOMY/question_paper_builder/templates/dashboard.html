@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block extra_head %}
+<style>
+  .dash-wrap { min-height: calc(100vh - 64px); display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
+  .form-card { width: 100%; max-width: 780px; }
+  .section-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 6px; }
+  .upload-zone { border: 2px dashed #c4b5fd; border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; background: #faf5ff; transition: .2s; }
+  .upload-zone:hover { border-color: #4f46e5; background: #ede9fe; }
+  .upload-zone i { font-size: 2rem; color: #4f46e5; }
+  select:disabled { background: #e9ecef; }
+  .blooms-info { background: linear-gradient(135deg,#1e1b4b,#3730a3); border-radius: 10px; padding: 1.1rem 1.3rem; color: #fff; }
+  .blooms-info .bl-badge { display: inline-block; border-radius: 20px; padding: 3px 12px; font-size: .72rem; font-weight: 700; margin: 3px 2px; }
+  .form-select, .form-control { border-color: #c4b5fd; }
+  .form-select:focus, .form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 .2rem rgba(79,70,229,.2); }
+</style>
+{% endblock %}
+
+{% block body %}
+{% if user.is_authenticated %}
+<div class="dash-wrap">
+  <div class="form-card">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="fw-bold mb-0" style="color:#1e1b4b"><i class="bi bi-file-earmark-plus me-2"></i>Generate Question Paper</h4>
+        <p class="text-muted small mb-0">Welcome back, <strong>{{ fname }}</strong></p>
+      </div>
+      <a href="/history" class="btn btn-outline-primary btn-sm"><i class="bi bi-clock-history me-1"></i>History</a>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-4">
+        <form action="" method="post" enctype="multipart/form-data" id="paperForm">
+          {% csrf_token %}
+
+          <!-- College & Branch (cascading) -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="section-label">College / University</label>
+              {{ form.college_name }}
+            </div>
+            <div class="col-md-6">
+              <label class="section-label">Branch / Department</label>
+              {{ form.branch_name }}
+            </div>
+          </div>
+
+          <!-- Year & Semester -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="section-label">Academic Year</label>
+              {{ form.year }}
+            </div>
+            <div class="col-md-6">
+              <label class="section-label">Semester</label>
+              {{ form.semester }}
+            </div>
+          </div>
+
+          <!-- Subject (cascading from branch + semester) -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="section-label">Subject <span class="text-muted fw-normal">(from curriculum)</span></label>
+              {{ form.subject_name }}
+            </div>
+            <div class="col-md-6">
+              <label class="section-label">Or Type Subject Name Manually</label>
+              {{ form.custom_subject }}
+            </div>
+          </div>
+
+          <!-- Faculty & Exam Type -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="section-label">Faculty Name</label>
+              {{ form.faculty }}
+            </div>
+            <div class="col-md-6">
+              <label class="section-label">Exam Type</label>
+              {{ form.exam_type }}
+            </div>
+          </div>
+
+          <!-- Exam Date -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="section-label">Exam Date</label>
+              {{ form.date }}
+            </div>
+          </div>
+
+          <!-- Upload -->
+          <div class="mb-4">
+            <label class="section-label">Question Bank (CSV)</label>
+            <div class="upload-zone" onclick="document.getElementById('id_qb').click()">
+              <i class="bi bi-cloud-upload mb-2"></i>
+              <p class="mb-1 fw-500" id="file-name-label">Click to upload or drag &amp; drop</p>
+              <small class="text-muted">CSV format required &mdash; columns: <code>question</code>, <code>marks</code></small>
+              <input type="file" name="qb" id="id_qb" accept=".csv" class="d-none" required>
+            </div>
+            <div class="mt-2 text-end" id="preview-btn-wrap" style="display:none">
+              <button type="button" class="btn btn-outline-primary btn-sm" id="previewBtn" onclick="previewCSV()">
+                <i class="bi bi-eye me-1"></i>Preview with AI &nbsp;<span class="badge bg-primary">New</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Blooms info -->
+          <div class="blooms-info mb-4">
+            <p class="mb-2 fw-bold small" style="color:#fde68a"><i class="bi bi-cpu me-1"></i>AI classifies every question by Bloom's Taxonomy level</p>
+            <div class="mb-2">
+              <span class="bl-badge" style="background:#3f51b5">Remember</span>
+              <span class="bl-badge" style="background:#17a2b8">Understand</span>
+              <span class="bl-badge" style="background:#28a745">Apply</span>
+              <span class="bl-badge" style="background:#e6a817;color:#1e1b4b">Analyse</span>
+              <span class="bl-badge" style="background:#dc3545">Evaluate</span>
+              <span class="bl-badge" style="background:#6f42c1">Create</span>
+            </div>
+            <p class="mb-0 small" style="color:rgba(255,255,255,.75)">Selects 2 questions each from 4, 5, 6, 7 &amp; 8-mark categories &mdash; total <strong style="color:#f59e0b">10 questions / 60 marks</strong>.</p>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+              <i class="bi bi-magic me-2"></i>Generate Question Paper
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+const collegeEl  = document.getElementById('id_college');
+const branchEl   = document.getElementById('id_branch');
+const semesterEl = document.getElementById('id_semester');
+const subjectEl  = document.getElementById('id_subject');
+
+function setOptions(select, items, emptyLabel) {
+  select.innerHTML = `<option value="">${emptyLabel}</option>`;
+  items.forEach(item => {
+    const opt = document.createElement('option');
+    opt.value = item.id;
+    opt.textContent = item.name;
+    select.appendChild(opt);
+  });
+  select.disabled = items.length === 0;
+}
+
+collegeEl.addEventListener('change', function () {
+  const id = this.value;
+  branchEl.innerHTML = '<option value="">-- Loading... --</option>';
+  subjectEl.innerHTML = '<option value="">-- Select Subject --</option>';
+  if (!id) return;
+  fetch(`/ajax/branches?college_id=${id}`)
+    .then(r => r.json())
+    .then(data => setOptions(branchEl, data, '-- Select Branch --'));
+});
+
+function loadSubjects() {
+  const branchId  = branchEl.value;
+  const semester  = semesterEl.value;
+  if (!branchId || !semester) return;
+  fetch(`/ajax/subjects?branch_id=${branchId}&semester=${semester}`)
+    .then(r => r.json())
+    .then(data => setOptions(subjectEl, data, '-- Select Subject --'));
+}
+branchEl.addEventListener('change', loadSubjects);
+semesterEl.addEventListener('change', loadSubjects);
+
+// File input label + show preview button
+document.getElementById('id_qb').addEventListener('change', function () {
+  const label = document.getElementById('file-name-label');
+  label.textContent = this.files.length ? this.files[0].name : 'Click to upload or drag & drop';
+  document.getElementById('preview-btn-wrap').style.display = this.files.length ? 'block' : 'none';
+});
+
+// ── CSV Preview with AI ───────────────────────────────────────────────────
+const LEVEL_COLORS = {
+  'Remember':   'primary',
+  'Understand': 'info',
+  'Apply':      'success',
+  'Analyse':    'warning',
+  'Evaluate':   'danger',
+  'Create':     'secondary',
+};
+
+function previewCSV() {
+  const file = document.getElementById('id_qb').files[0];
+  if (!file) return;
+
+  const btn = document.getElementById('previewBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Analysing…';
+
+  const fd = new FormData();
+  fd.append('qb', file);
+  fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+  fetch('/ajax/preview_csv', { method: 'POST', body: fd })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-eye me-1"></i>Preview with AI &nbsp;<span class="badge bg-primary">New</span>';
+
+      if (data.error) { alert('Error: ' + data.error); return; }
+
+      const rows = data.rows;
+      // count Bloom's levels
+      const counts = {};
+      rows.forEach(r => counts[r.blooms_level] = (counts[r.blooms_level]||0)+1);
+
+      let tableRows = rows.map((r, i) => `
+        <tr>
+          <td class="text-muted">${i+1}</td>
+          <td style="font-size:.85rem">${r.question}</td>
+          <td class="text-center"><span class="badge bg-${LEVEL_COLORS[r.blooms_level]||'secondary'}">${r.blooms_level}</span></td>
+          <td class="text-center fw-bold">${r.marks}</td>
+        </tr>`).join('');
+
+      let summary = Object.entries(counts).map(([k,v]) =>
+        `<span class="badge bg-${LEVEL_COLORS[k]||'secondary'} me-1">${k}: ${v}</span>`
+      ).join('');
+
+      document.getElementById('previewBody').innerHTML = tableRows;
+      document.getElementById('previewSummary').innerHTML =
+        `<strong>${rows.length} questions</strong> &mdash; ${summary}`;
+
+      new bootstrap.Modal(document.getElementById('previewModal')).show();
+    })
+    .catch(err => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-eye me-1"></i>Preview with AI &nbsp;<span class="badge bg-primary">New</span>';
+      alert('Failed: ' + err);
+    });
+}
+</script>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(90deg,#1e1b4b,#4f46e5);color:#fff">
+        <h5 class="modal-title"><i class="bi bi-cpu me-2"></i>AI Question Analysis — CSV Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="px-3 pt-3 pb-2 border-bottom bg-light" id="previewSummary"></div>
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead style="background:#ede9fe;position:sticky;top:0">
+              <tr>
+                <th style="width:40px">#</th>
+                <th>Question</th>
+                <th style="width:130px" class="text-center">Bloom's Level</th>
+                <th style="width:70px"  class="text-center">Marks</th>
+              </tr>
+            </thead>
+            <tbody id="previewBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <small class="text-muted me-auto"><i class="bi bi-info-circle me-1"></i>This preview shows AI predictions. Actual paper selects 2 questions per mark category.</small>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal"
+                onclick="document.getElementById('paperForm').submit()">
+          <i class="bi bi-magic me-1"></i>Generate Paper Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% endif %}
+{% endblock %}

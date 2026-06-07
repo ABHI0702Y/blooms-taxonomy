@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% block title %}Question Paper — {{ subject_data.subject_name }}{% endblock %}
+{% block extra_head %}
+<style>
+  .paper-wrapper { max-width: 900px; margin: 2rem auto; }
+  .paper-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.1); overflow: hidden; }
+  .paper-header { border-bottom: 2px solid #222; padding: 1.2rem 1.5rem; }
+  .paper-header h3 { font-size: 1.3rem; font-weight: 800; margin: 0; }
+  .paper-header h5 { font-size: 1rem; font-weight: 500; margin: 0; color: #444; }
+  table { width: 100%; border-collapse: collapse; }
+  table, th, td { border: 1px solid #333; }
+  th { background: linear-gradient(90deg,#1e1b4b,#3730a3); color: #fff; font-size: .85rem; padding: 8px 10px; }
+  td { padding: 8px 10px; font-size: .9rem; vertical-align: top; }
+  td:first-child, td:last-child { white-space: nowrap; text-align: center; }
+  .blooms-tag { font-size: .7rem; font-weight: 700; border-radius: 20px; padding: 2px 10px; display: inline-block; }
+  .section-row td { background: #ede9fe; font-weight: 600; font-size: .85rem; color: #1e1b4b; }
+  .or-row td { background: #fce4ec; text-align: center; font-weight: 700; color: #c62828; border: none; padding: 4px; }
+
+  /* Analytics panel */
+  .analytics-panel { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); padding: 1.5rem; margin-bottom: 1.2rem; }
+  .grade-badge { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+  .score-bar { height: 8px; border-radius: 4px; background: #e0e0e0; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .set-btn { border: 2px solid #4f46e5; color: #4f46e5; background: #fff; padding: 4px 18px; border-radius: 20px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: .15s; }
+  .set-btn.active { background: linear-gradient(135deg,#3730a3,#4f46e5); color: #fff; border-color: #4f46e5; }
+
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff !important; }
+    .paper-wrapper { margin: 0; max-width: 100%; }
+    .paper-card { box-shadow: none; border-radius: 0; }
+    .analytics-panel { display: none !important; }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container paper-wrapper">
+
+  <!-- Action bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+    <div>
+      <h5 class="fw-bold mb-0" style="color:#1e1b4b"><i class="bi bi-file-earmark-text me-2"></i>Generated Question Paper</h5>
+      <small class="text-muted">{{ subject_data.subject_name }} &mdash; {{ subject_data.exam_type }}</small>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="/history" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>History</a>
+      <a href="/dashboard" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>New Paper</a>
+      <button onclick="window.print()" class="btn btn-primary btn-sm"><i class="bi bi-printer me-1"></i>Print / PDF</button>
+    </div>
+  </div>
+
+  <!-- ── Analytics Panel (no-print) ──────────────────────────────────── -->
+  <div class="analytics-panel no-print">
+    <div class="row align-items-center g-4">
+
+      <!-- Quality Score -->
+      <div class="col-md-3 text-center border-end">
+        <div class="text-muted small fw-bold mb-1">PAPER QUALITY SCORE</div>
+        <div class="grade-badge text-{{ quality_color }}">{{ quality_grade }}</div>
+        <div class="text-muted small mt-1">{{ quality_score }}/100</div>
+        <div class="score-bar mt-2">
+          <div class="score-fill bg-{{ quality_color }}" style="width:{{ quality_score }}%"></div>
+        </div>
+        <div class="text-muted" style="font-size:.72rem;margin-top:4px">{{ quality_msg }}</div>
+      </div>
+
+      <!-- Bloom's Distribution Chart -->
+      <div class="col-md-5 text-center">
+        <div class="text-muted small fw-bold mb-2">BLOOM'S LEVEL DISTRIBUTION</div>
+        <canvas id="bloomsChart" height="160"></canvas>
+      </div>
+
+      <!-- Legend + Set toggle -->
+      <div class="col-md-4">
+        <div class="text-muted small fw-bold mb-2">COGNITIVE LEVELS</div>
+        <div id="chart-legend" class="mb-3"></div>
+        <div class="text-muted small fw-bold mb-2">PAPER VARIANT</div>
+        <div class="d-flex gap-2">
+          <button class="set-btn active" id="btnSetA" onclick="showSet('A')">Set A</button>
+          <button class="set-btn"        id="btnSetB" onclick="showSet('B')">Set B</button>
+        </div>
+        <div class="text-muted mt-1" style="font-size:.72rem">Set B shuffles the OR alternatives</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Question Paper Card ─────────────────────────────────────────── -->
+  <div class="paper-card">
+    <div class="paper-header text-center">
+      <h3>{{ subject_data.college_name }}</h3>
+      <h5 class="mt-1">{{ subject_data.branch_name }} &mdash; {{ subject_data.year }} &mdash; {{ subject_data.semester }}</h5>
+    </div>
+
+    <div style="border-bottom:2px solid #222;padding:.8rem 1.5rem;">
+      <div class="row">
+        <div class="col-6 col-md-3"><strong>Exam:</strong> {{ subject_data.exam_type }}</div>
+        <div class="col-6 col-md-3"><strong>Subject:</strong> {{ subject_data.subject_name }}</div>
+        <div class="col-6 col-md-3"><strong>Date:</strong> {{ subject_data.date }}</div>
+        <div class="col-6 col-md-3"><strong>Faculty:</strong> {{ subject_data.faculty }}</div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-6"><strong>Total Marks:</strong> 60</div>
+        <div class="col-6"><strong>Duration:</strong> 60 Minutes</div>
+      </div>
+    </div>
+
+    <div style="border-bottom:2px solid #222;padding:.6rem 1.5rem;background:#fffde7;">
+      <strong>Instructions:</strong>
+      <ol class="mb-0 mt-1 small">
+        <li>Attempt Q1 or Q2, Q3 or Q4.</li>
+        <li>Draw neat diagrams wherever necessary.</li>
+        <li>Assume suitable data wherever necessary.</li>
+        <li>Figures to the right indicate full marks.</li>
+      </ol>
+    </div>
+
+    <div style="padding:1rem 1.5rem;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:70px">Sr. No.</th>
+            <th>Question</th>
+            <th style="width:110px">Bloom's Level</th>
+            <th style="width:70px">Marks</th>
+          </tr>
+        </thead>
+
+        <!-- SET A (default) -->
+        <tbody id="setA">
+          <tr class="section-row"><td colspan="4">Q1 — Attempt any</td></tr>
+          <tr>
+            <td>Q1.a</td><td>{{ subject_data.q10 }}</td>
+            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl10 }}</span></td>
+            <td>{{ subject_data.m10 }}</td>
+          </tr>
+          <tr>
+            <td>Q1.b</td><td>{{ subject_data.q8 }}</td>
+            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl8 }}</span></td>
+            <td>{{ subject_data.m8 }}</td>
+          </tr>
+          <tr>
+            <td>Q1.c</td><td>{{ subject_data.q6 }}</td>
+            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl6 }}</span></td>
+            <td>{{ subject_data.m6 }}</td>
+          </tr>
+          <tr class="or-row"><td colspan="4">— OR —</td></tr>
+          <tr class="section-row"><td colspan="4">Q2 — Attempt any</td></tr>
+          <tr>
+            <td>Q2.a</td><td>{{ subject_data.q9 }}</td>
+            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl9 }}</span></td>
+            <td>{{ subject_data.m9 }}</td>
+          </tr>
+          <tr>
+            <td>Q2.b</td><td>{{ subject_data.q7 }}</td>
+            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl7 }}</span></td>
+            <td>{{ subject_data.m7 }}</td>
+          </tr>
+          <tr>
+            <td>Q2.c</td><td>{{ subject_data.q5 }}</td>
+            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl5 }}</span></td>
+            <td>{{ subject_data.m5 }}</td>
+          </tr>
+          <tr class="section-row"><td colspan="4">Q3 — Attempt any</td></tr>
+          <tr>
+            <td>Q3.a</td><td>{{ subject_data.q4 }}</td>
+            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl4 }}</span></td>
+            <td>{{ subject_data.m4 }}</td>
+          </tr>
+          <tr>
+            <td>Q3.b</td><td>{{ subject_data.q2 }}</td>
+            <td><span class="blooms-tag bg-danger text-white">{{ subject_data.bl2 }}</span></td>
+            <td>{{ subject_data.m2 }}</td>
+          </tr>
+          <tr class="or-row"><td colspan="4">— OR —</td></tr>
+          <tr class="section-row"><td colspan="4">Q4 — Attempt any</td></tr>
+          <tr>
+            <td>Q4.a</td><td>{{ subject_data.q3 }}</td>
+            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl3 }}</span></td>
+            <td>{{ subject_data.m3 }}</td>
+          </tr>
+          <tr>
+            <td>Q4.b</td><td>{{ subject_data.q1 }}</td>
+            <td><span class="blooms-tag bg-secondary text-white">{{ subject_data.bl1 }}</span></td>
+            <td>{{ subject_data.m1 }}</td>
+          </tr>
+        </tbody>
+
+        <!-- SET B (OR alternatives swapped) -->
+        <tbody id="setB" style="display:none">
+          <tr class="section-row"><td colspan="4">Q1 — Attempt any</td></tr>
+          <tr>
+            <td>Q1.a</td><td>{{ subject_data.q9 }}</td>
+            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl9 }}</span></td>
+            <td>{{ subject_data.m9 }}</td>
+          </tr>
+          <tr>
+            <td>Q1.b</td><td>{{ subject_data.q7 }}</td>
+            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl7 }}</span></td>
+            <td>{{ subject_data.m7 }}</td>
+          </tr>
+          <tr>
+            <td>Q1.c</td><td>{{ subject_data.q5 }}</td>
+            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl5 }}</span></td>
+            <td>{{ subject_data.m5 }}</td>
+          </tr>
+          <tr class="or-row"><td colspan="4">— OR —</td></tr>
+          <tr class="section-row"><td colspan="4">Q2 — Attempt any</td></tr>
+          <tr>
+            <td>Q2.a</td><td>{{ subject_data.q10 }}</td>
+            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl10 }}</span></td>
+            <td>{{ subject_data.m10 }}</td>
+          </tr>
+          <tr>
+            <td>Q2.b</td><td>{{ subject_data.q8 }}</td>
+            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl8 }}</span></td>
+            <td>{{ subject_data.m8 }}</td>
+          </tr>
+          <tr>
+            <td>Q2.c</td><td>{{ subject_data.q6 }}</td>
+            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl6 }}</span></td>
+            <td>{{ subject_data.m6 }}</td>
+          </tr>
+          <tr class="section-row"><td colspan="4">Q3 — Attempt any</td></tr>
+          <tr>
+            <td>Q3.a</td><td>{{ subject_data.q3 }}</td>
+            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl3 }}</span></td>
+            <td>{{ subject_data.m3 }}</td>
+          </tr>
+          <tr>
+            <td>Q3.b</td><td>{{ subject_data.q1 }}</td>
+            <td><span class="blooms-tag bg-secondary text-white">{{ subject_data.bl1 }}</span></td>
+            <td>{{ subject_data.m1 }}</td>
+          </tr>
+          <tr class="or-row"><td colspan="4">— OR —</td></tr>
+          <tr class="section-row"><td colspan="4">Q4 — Attempt any</td></tr>
+          <tr>
+            <td>Q4.a</td><td>{{ subject_data.q4 }}</td>
+            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl4 }}</span></td>
+            <td>{{ subject_data.m4 }}</td>
+          </tr>
+          <tr>
+            <td>Q4.b</td><td>{{ subject_data.q2 }}</td>
+            <td><span class="blooms-tag bg-danger text-white">{{ subject_data.bl2 }}</span></td>
+            <td>{{ subject_data.m2 }}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+    <div style="padding:.8rem 1.5rem;border-top:1px solid #ddd;text-align:center;" class="no-print">
+      <small class="text-muted">Generated by Bloom's Taxonomy Question Paper Generator &mdash; AI powered &bull; Quality Score: <strong>{{ quality_grade }}</strong> ({{ quality_score }}/100)</small>
+    </div>
+  </div><!-- /paper-card -->
+
+</div><!-- /container -->
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// ── Bloom's Doughnut Chart ────────────────────────────────────────────────
+const labels  = {{ chart_labels|safe }};
+const data    = {{ chart_data|safe }};
+const colors  = {{ chart_colors|safe }};
+
+const ctx = document.getElementById('bloomsChart').getContext('2d');
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels,
+    datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.raw} question${ctx.raw > 1 ? 's' : ''}`
+        }
+      }
+    }
+  }
+});
+
+// Custom legend
+const legendEl = document.getElementById('chart-legend');
+labels.forEach((l, i) => {
+  legendEl.innerHTML += `
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <div style="width:12px;height:12px;border-radius:3px;background:${colors[i]};flex-shrink:0"></div>
+      <span style="font-size:.8rem">${l} <span class="text-muted">(${data[i]})</span></span>
+    </div>`;
+});
+
+// ── Set A / Set B Toggle ──────────────────────────────────────────────────
+function showSet(set) {
+  document.getElementById('setA').style.display = set === 'A' ? '' : 'none';
+  document.getElementById('setB').style.display = set === 'B' ? '' : 'none';
+  document.getElementById('btnSetA').classList.toggle('active', set === 'A');
+  document.getElementById('btnSetB').classList.toggle('active', set === 'B');
+}
+</script>
+{% endblock %}
+{% endblock %}

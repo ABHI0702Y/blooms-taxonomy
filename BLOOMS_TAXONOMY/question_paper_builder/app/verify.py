@@ -48,12 +48,12 @@ def authentication(first_name, last_name, pass1, pass2):
     else:
         return "success"
 
-##################################    Subject Name Authentication Function   ##################################
+##################################    Faculty Name Authentication Function   ##################################
 def full_name_valid(name):
-    return all(c.isalpha() or c.isspace() for c in name)
-    
+    allowed = set(' .-,()/')
+    return len(name.strip()) > 0 and all(c.isalpha() or c.isspace() or c in allowed for c in name)
+
 def form_varification(name):
-    if full_name_valid(name) == False:
-        return "Invalid Subject Name"           
-    else:
-        return "Success"
+    if not full_name_valid(name):
+        return "Invalid Faculty Name. Use only letters, spaces, dots or hyphens."
+    return "Success"

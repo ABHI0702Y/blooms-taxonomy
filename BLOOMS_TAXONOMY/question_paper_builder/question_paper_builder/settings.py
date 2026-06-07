@@ -12,6 +12,12 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.up.railway.app',
+    'http://*.up.railway.app',
+    'https://*.railway.app',
+]
+
 
 INSTALLED_APPS = [
     'app.apps.AppConfig',

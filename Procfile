@@ -1,0 +1,1 @@
+web: cd BLOOMS_TAXONOMY/question_paper_builder && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py populate_data & cd BLOOMS_TAXONOMY/question_paper_builder && gunicorn question_paper_builder.wsgi --bind 0.0.0.0:$PORT --workers 2 --log-file -

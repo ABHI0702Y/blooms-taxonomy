@@ -14,6 +14,26 @@ from app.models import Subject_data, College, Branch, Subject
 import pandas as pd
 import pickle
 import numpy as np
+import io
+
+
+def _read_csv(csv_file):
+    """Read CSV file robustly — handles questions that contain commas."""
+    content = csv_file.read()
+    if isinstance(content, bytes):
+        content = content.decode('utf-8-sig', errors='replace')
+    lines = [l.strip() for l in content.strip().splitlines() if l.strip()]
+    if not lines:
+        raise ValueError("CSV file is empty")
+    header = lines[0].strip('"').strip().lower()
+    if header == 'question':
+        question_lines = lines[1:]
+    else:
+        question_lines = lines
+    questions = [l.strip('"').strip() for l in question_lines if l.strip()]
+    if not questions:
+        raise ValueError("No questions found in CSV")
+    return pd.DataFrame({'question': questions})
 
 DATASET_DIR = Path(__file__).resolve().parent.parent / "dataset"
 
@@ -101,7 +121,7 @@ def preview_csv(request):
     if not csv_file:
         return JsonResponse({'error': 'No file uploaded'}, status=400)
     try:
-        reader = pd.read_csv(csv_file)
+        reader = _read_csv(csv_file)
         if 'question' not in reader.columns:
             return JsonResponse({'error': "CSV must have a 'question' column"}, status=400)
 
@@ -165,7 +185,7 @@ def dashboard(request):
                 model      = pickle.load(open(DATASET_DIR / 'model.pkl', 'rb'))
                 vectorizer = pickle.load(open(DATASET_DIR / 'vectorizer.pkl', 'rb'))
 
-                reader    = pd.read_csv(qb)
+                reader    = _read_csv(qb)
                 X_new     = vectorizer.transform(reader['question'])
                 y_pred    = np.array(model.predict(X_new)).astype(int)
                 reader['predicted_marks'] = y_pred

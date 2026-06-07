@@ -1,9 +1,6 @@
 from django.core.management.base import BaseCommand
 from app.models import College, Branch, Subject
 
-# ---------------------------------------------------------------------------
-# Standard subject templates per branch and semester (AICTE / UGC syllabus)
-# ---------------------------------------------------------------------------
 BRANCH_TEMPLATES = {
     "CSE": {
         "name": "Computer Science and Engineering",
@@ -124,11 +121,7 @@ BRANCH_TEMPLATES = {
     },
 }
 
-# ---------------------------------------------------------------------------
-# University list: (display_name, location, [branch_codes])
-# ---------------------------------------------------------------------------
 UNIVERSITIES = [
-    # ── IITs (23) ──────────────────────────────────────────────────────────
     ("Indian Institute of Technology Bombay",            "Mumbai, Maharashtra",             ["CSE", "IT", "EE", "ME", "CE", "CHEM", "AIML"]),
     ("Indian Institute of Technology Delhi",             "New Delhi",                       ["CSE", "IT", "EE", "ME", "CE", "CHEM", "AIML", "DS"]),
     ("Indian Institute of Technology Madras",            "Chennai, Tamil Nadu",             ["CSE", "EE", "ME", "CE", "CHEM", "AIML"]),
@@ -152,8 +145,6 @@ UNIVERSITIES = [
     ("Indian Institute of Technology Goa",               "Goa",                             ["CSE", "ME"]),
     ("Indian Institute of Technology Jammu",             "Jammu, J&K",                      ["CSE", "EE", "ME"]),
     ("Indian Institute of Technology Dharwad",           "Dharwad, Karnataka",              ["CSE", "EE", "ME"]),
-
-    # ── NITs (31) ──────────────────────────────────────────────────────────
     ("National Institute of Technology Tiruchirappalli",          "Tiruchirappalli, Tamil Nadu",          ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("National Institute of Technology Warangal",                 "Warangal, Telangana",                  ["CSE", "IT", "ECE", "EE", "ME", "CE", "CHEM"]),
     ("National Institute of Technology Karnataka Surathkal",      "Mangaluru, Karnataka",                 ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
@@ -185,8 +176,6 @@ UNIVERSITIES = [
     ("National Institute of Technology Patna",                    "Patna, Bihar",                         ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("National Institute of Technology Raipur",                   "Raipur, Chhattisgarh",                 ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("National Institute of Technology Jamshedpur",               "Jamshedpur, Jharkhand",                ["CSE", "IT", "ME", "CE", "CHEM"]),
-
-    # ── IIITs (25) ─────────────────────────────────────────────────────────
     ("Indian Institute of Information Technology Allahabad",        "Allahabad, Uttar Pradesh",    ["CSE", "IT", "AIML", "DS"]),
     ("International Institute of Information Technology Hyderabad", "Hyderabad, Telangana",        ["CSE", "ECE", "AIML", "DS"]),
     ("International Institute of Information Technology Bangalore", "Bangalore, Karnataka",         ["CSE", "IT", "AIML"]),
@@ -212,8 +201,6 @@ UNIVERSITIES = [
     ("Indian Institute of Information Technology Raichur",          "Raichur, Karnataka",          ["CSE", "ECE"]),
     ("Indian Institute of Information Technology Sonepat",          "Sonepat, Haryana",            ["CSE", "IT"]),
     ("Indian Institute of Information Technology Bhopal",           "Bhopal, Madhya Pradesh",      ["CSE", "IT"]),
-
-    # ── Deemed / Top Private Universities ──────────────────────────────────
     ("Birla Institute of Technology and Science Pilani",            "Pilani, Rajasthan",           ["CSE", "IT", "ECE", "EE", "ME", "CHEM"]),
     ("BITS Pilani - Hyderabad Campus",                              "Hyderabad, Telangana",        ["CSE", "IT", "ECE", "EE", "ME", "CHEM"]),
     ("BITS Pilani - Goa Campus",                                    "Goa",                         ["CSE", "IT", "ECE", "EE", "ME"]),
@@ -256,8 +243,6 @@ UNIVERSITIES = [
     ("Annamalai University",                                        "Chidambaram, Tamil Nadu",     ["CSE", "IT", "ECE", "ME", "CE"]),
     ("Cochin University of Science and Technology",                 "Kochi, Kerala",               ["CSE", "IT", "ECE", "EE", "ME"]),
     ("Jadavpur University",                                         "Kolkata, West Bengal",        ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
-
-    # ── State Technical Universities ────────────────────────────────────────
     ("Anna University",                                     "Chennai, Tamil Nadu",             ["CSE", "IT", "ECE", "EE", "ME", "CE", "CHEM"]),
     ("Visvesvaraya Technological University",               "Belagavi, Karnataka",             ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("Dr. A.P.J. Abdul Kalam Technical University",        "Lucknow, Uttar Pradesh",          ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
@@ -284,8 +269,6 @@ UNIVERSITIES = [
     ("Guru Gobind Singh Indraprastha University",          "Delhi",                           ["CSE", "IT", "ECE", "EE", "ME"]),
     ("Indian Institute of Engineering Science and Technology Shibpur", "Howrah, West Bengal", ["CSE", "IT", "EE", "ME", "CE"]),
     ("Bikaner Technical University",                       "Bikaner, Rajasthan",              ["CSE", "IT", "ECE", "ME"]),
-
-    # ── University of Mumbai (affiliated) ──────────────────────────────────
     ("University of Mumbai",                     "Mumbai, Maharashtra",    ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("Savitribai Phule Pune University",         "Pune, Maharashtra",      ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("Amravati University",                      "Amravati, Maharashtra",  ["CSE", "IT", "ME", "CE"]),
@@ -294,8 +277,6 @@ UNIVERSITIES = [
     ("North Maharashtra University",             "Jalgaon, Maharashtra",   ["CSE", "ME"]),
     ("Dr. Babasaheb Ambedkar Marathwada University", "Aurangabad, Maharashtra", ["CSE", "IT", "ME"]),
     ("Swami Ramanand Teerth Marathwada University",  "Nanded, Maharashtra",    ["CSE", "ME", "CE"]),
-
-    # ── Karnataka State Universities ────────────────────────────────────────
     ("Bangalore University",                     "Bangalore, Karnataka",   ["CSE", "IT", "ECE"]),
     ("Kuvempu University",                       "Shivamogga, Karnataka",  ["CSE", "IT"]),
     ("Mysore University",                        "Mysuru, Karnataka",      ["CSE", "IT"]),
@@ -304,28 +285,20 @@ UNIVERSITIES = [
     ("Davangere University",                     "Davangere, Karnataka",   ["CSE"]),
     ("Rani Channamma University",                "Belagavi, Karnataka",    ["CSE", "IT"]),
     ("Tumkur University",                        "Tumakuru, Karnataka",    ["CSE"]),
-
-    # ── Tamil Nadu State Universities ───────────────────────────────────────
     ("Periyar University",                       "Salem, Tamil Nadu",      ["CSE", "IT"]),
     ("Alagappa University",                      "Karaikudi, Tamil Nadu",  ["CSE", "IT"]),
     ("Bharathidasan University",                 "Tiruchirappalli, Tamil Nadu", ["CSE", "IT"]),
     ("Bharathiar University",                    "Coimbatore, Tamil Nadu", ["CSE", "IT"]),
     ("Madurai Kamaraj University",               "Madurai, Tamil Nadu",    ["CSE", "IT"]),
-
-    # ── Andhra Pradesh / Telangana ──────────────────────────────────────────
     ("Andhra University",                        "Visakhapatnam, Andhra Pradesh", ["CSE", "ECE", "EE", "ME", "CE"]),
     ("Sri Venkateswara University",              "Tirupati, Andhra Pradesh",      ["CSE", "ECE", "ME", "CE"]),
     ("Osmania University",                       "Hyderabad, Telangana",          ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("Kakatiya University",                      "Warangal, Telangana",           ["CSE", "IT"]),
     ("University of Hyderabad",                  "Hyderabad, Telangana",          ["CSE", "AIML"]),
-
-    # ── Kerala Universities ─────────────────────────────────────────────────
     ("University of Kerala",                     "Thiruvananthapuram, Kerala",    ["CSE", "IT", "ECE"]),
     ("Kannur University",                        "Kannur, Kerala",                ["CSE", "IT"]),
     ("Calicut University",                       "Malappuram, Kerala",            ["CSE", "IT", "ECE"]),
     ("Mahatma Gandhi University",                "Kottayam, Kerala",              ["CSE", "ECE"]),
-
-    # ── Gujarat / Rajasthan ─────────────────────────────────────────────────
     ("Gujarat University",                       "Ahmedabad, Gujarat",    ["CSE", "IT"]),
     ("M.S. University of Baroda",               "Vadodara, Gujarat",     ["CSE", "IT", "ME"]),
     ("Saurashtra University",                    "Rajkot, Gujarat",       ["CSE", "IT"]),
@@ -334,21 +307,14 @@ UNIVERSITIES = [
     ("University of Rajasthan",                  "Jaipur, Rajasthan",     ["CSE", "IT"]),
     ("MDS University Ajmer",                     "Ajmer, Rajasthan",      ["CSE", "IT"]),
     ("University of Kota",                       "Kota, Rajasthan",       ["CSE", "IT"]),
-
-    # ── Uttar Pradesh ──────────────────────────────────────────────────────
     ("Aligarh Muslim University",                "Aligarh, Uttar Pradesh",       ["CSE", "IT", "ECE", "EE", "ME", "CE"]),
     ("Banaras Hindu University",                 "Varanasi, Uttar Pradesh",      ["CSE", "ECE", "ME", "CE"]),
     ("University of Allahabad",                  "Allahabad, Uttar Pradesh",     ["CSE", "IT"]),
     ("Lucknow University",                       "Lucknow, Uttar Pradesh",       ["CSE", "IT"]),
     ("Bundelkhand University",                   "Jhansi, Uttar Pradesh",        ["CSE", "IT"]),
     ("Mahatma Jyotiba Phule Rohilkhand University", "Bareilly, Uttar Pradesh",  ["CSE", "IT"]),
-
-    # ── Delhi / NCR ─────────────────────────────────────────────────────────
     ("Jamia Millia Islamia",                     "Delhi",                  ["CSE", "IT", "ECE", "ME"]),
-    ("Guru Gobind Singh College Of Engineering And Research Centre", "Nashik, Maharashtra",
-        ["CSE", "IT", "ME", "ECE"]),
-
-    # ── Punjab / Haryana / HP / J&K ────────────────────────────────────────
+    ("Guru Gobind Singh College Of Engineering And Research Centre", "Nashik, Maharashtra", ["CSE", "IT", "ME", "ECE"]),
     ("Punjab University Chandigarh",             "Chandigarh",            ["CSE", "IT", "ECE", "ME"]),
     ("Kurukshetra University",                   "Kurukshetra, Haryana",  ["CSE", "IT", "ECE", "ME"]),
     ("Maharshi Dayanand University",             "Rohtak, Haryana",       ["CSE", "IT", "ECE", "ME"]),
@@ -357,18 +323,12 @@ UNIVERSITIES = [
     ("Himachal Pradesh University",              "Shimla, Himachal Pradesh", ["CSE", "IT"]),
     ("Jammu University",                         "Jammu, J&K",            ["CSE", "IT"]),
     ("Kashmir University",                       "Srinagar, J&K",         ["CSE", "IT"]),
-
-    # ── Madhya Pradesh ─────────────────────────────────────────────────────
     ("Devi Ahilya Vishwavidyalaya",              "Indore, Madhya Pradesh",  ["CSE", "IT", "ECE"]),
     ("Barkatullah University",                   "Bhopal, Madhya Pradesh",  ["CSE", "IT"]),
     ("Jiwaji University",                        "Gwalior, Madhya Pradesh", ["CSE", "IT"]),
-    ("Rani Durgavati University",                "Jabalpur, Madhya Pradesh","CSE"),
+    ("Rani Durgavati University",                "Jabalpur, Madhya Pradesh", ["CSE"]),
     ("Vikram University",                        "Ujjain, Madhya Pradesh",  ["CSE"]),
-
-    # ── Rajasthan ──────────────────────────────────────────────────────────
     ("Jodhpur National University",              "Jodhpur, Rajasthan",     ["CSE", "IT"]),
-
-    # ── Bihar / Jharkhand ──────────────────────────────────────────────────
     ("Magadh University",                        "Bodh Gaya, Bihar",       ["CSE"]),
     ("Lalit Narayan Mithila University",         "Darbhanga, Bihar",       ["CSE"]),
     ("Veer Kunwar Singh University",             "Ara, Bihar",             ["CSE", "IT"]),
@@ -376,15 +336,11 @@ UNIVERSITIES = [
     ("Vinoba Bhave University",                  "Hazaribagh, Jharkhand",  ["CSE", "IT"]),
     ("Kolhan University",                        "Chaibasa, Jharkhand",    ["CSE"]),
     ("Guru Ghasidas Vishwavidyalaya",            "Bilaspur, Chhattisgarh", ["CSE", "IT"]),
-
-    # ── Odisha ─────────────────────────────────────────────────────────────
     ("Sambalpur University",                     "Sambalpur, Odisha",      ["CSE", "IT"]),
     ("Berhampur University",                     "Brahmapur, Odisha",      ["CSE"]),
     ("North Orissa University",                  "Baripada, Odisha",       ["CSE"]),
     ("Utkal University",                         "Bhubaneswar, Odisha",    ["CSE", "IT"]),
     ("Fakir Mohan University",                   "Balasore, Odisha",       ["CSE"]),
-
-    # ── West Bengal / Assam / North-East ────────────────────────────────────
     ("Calcutta University",                      "Kolkata, West Bengal",   ["CSE", "IT", "ECE"]),
     ("Tezpur University",                        "Tezpur, Assam",          ["CSE", "ECE", "EE", "ME"]),
     ("Gauhati University",                       "Guwahati, Assam",        ["CSE", "IT", "ECE"]),
@@ -399,77 +355,88 @@ UNIVERSITIES = [
     ("North-Eastern Hill University",            "Shillong, Meghalaya",    ["CSE"]),
     ("Rajiv Gandhi University",                  "Itanagar, Arunachal Pradesh", ["CSE"]),
     ("Sikkim University",                        "Gangtok, Sikkim",        ["CSE"]),
-
-    # ── Uttarakhand ─────────────────────────────────────────────────────────
     ("Hemvati Nandan Bahuguna Garhwal University","Srinagar Garhwal, Uttarakhand", ["CSE", "IT"]),
     ("Kumaun University",                        "Nainital, Uttarakhand",  ["CSE"]),
     ("Gurukul Kangri University",                "Haridwar, Uttarakhand",  ["CSE", "IT"]),
-
-    # ── Pondicherry ─────────────────────────────────────────────────────────
     ("Pondicherry University",                   "Puducherry",             ["CSE", "IT", "ECE", "EE", "ME"]),
 ]
 
 
 class Command(BaseCommand):
-    help = 'Populate database with ~250 Indian universities, branches and subjects'
+    help = 'Populate database with Indian universities, branches and subjects using bulk operations'
 
     def add_arguments(self, parser):
         parser.add_argument('--clear', action='store_true', help='Clear existing data before seeding')
 
     def handle(self, *args, **options):
-        if options['clear']:
+        if not options.get('clear') and College.objects.exists():
+            self.stdout.write(self.style.SUCCESS(
+                f'Already seeded: {College.objects.count()} colleges | '
+                f'{Branch.objects.count()} branches | {Subject.objects.count()} subjects'
+            ))
+            return
+
+        if options.get('clear'):
             Subject.objects.all().delete()
             Branch.objects.all().delete()
             College.objects.all().delete()
             self.stdout.write(self.style.WARNING('Cleared existing data.'))
 
-        total_subjects = 0
-        skipped = 0
+        # ── Step 1: bulk create colleges ──────────────────────────────────────
+        college_data = {name: loc for name, loc, _ in UNIVERSITIES}
+        College.objects.bulk_create(
+            [College(name=name, location=loc) for name, loc in college_data.items()],
+            ignore_conflicts=True,
+        )
+        college_map = {c.name: c for c in College.objects.filter(name__in=college_data.keys())}
+        self.stdout.write(f'Colleges: {len(college_map)}')
 
-        for entry in UNIVERSITIES:
-            # support both (name, loc, [codes]) and legacy dict format
-            if len(entry) == 3:
-                college_name, location, branch_codes = entry
-            else:
-                self.stdout.write(self.style.WARNING(f'Skipping malformed entry: {entry}'))
+        # ── Step 2: bulk create branches ──────────────────────────────────────
+        branches_to_create = []
+        for college_name, _loc, branch_codes in UNIVERSITIES:
+            college = college_map.get(college_name)
+            if not college:
                 continue
-
-            # branch_codes might accidentally be a string for single-branch entries
             if isinstance(branch_codes, str):
                 branch_codes = [branch_codes]
+            for code in branch_codes:
+                template = BRANCH_TEMPLATES.get(code)
+                if template:
+                    branches_to_create.append(Branch(college=college, name=template['name']))
 
-            college, created = College.objects.get_or_create(
-                name=college_name,
-                defaults={'location': location}
-            )
-            tag = 'CREATED' if created else 'EXISTS '
-            self.stdout.write(f'  [{tag}] {college_name}')
+        Branch.objects.bulk_create(branches_to_create, ignore_conflicts=True)
+        branch_map = {}
+        for b in Branch.objects.filter(college__in=college_map.values()):
+            branch_map[(b.college_id, b.name)] = b
+        self.stdout.write(f'Branches: {len(branch_map)}')
 
+        # ── Step 3: bulk create subjects in batches of 500 ───────────────────
+        subjects_to_create = []
+        for college_name, _loc, branch_codes in UNIVERSITIES:
+            college = college_map.get(college_name)
+            if not college:
+                continue
+            if isinstance(branch_codes, str):
+                branch_codes = [branch_codes]
             for code in branch_codes:
                 template = BRANCH_TEMPLATES.get(code)
                 if not template:
-                    self.stdout.write(self.style.WARNING(f'    Unknown branch code: {code}'))
-                    skipped += 1
                     continue
-
-                branch, _ = Branch.objects.get_or_create(
-                    college=college, name=template['name']
-                )
-
+                branch = branch_map.get((college.id, template['name']))
+                if not branch:
+                    continue
                 for semester, subject_list in template['semesters'].items():
                     for subject_name in subject_list:
-                        _, s_created = Subject.objects.get_or_create(
-                            branch=branch,
-                            name=subject_name,
-                            semester=semester,
-                        )
-                        if s_created:
-                            total_subjects += 1
+                        subjects_to_create.append(Subject(
+                            branch=branch, name=subject_name, semester=semester,
+                        ))
+
+        batch_size = 500
+        for i in range(0, len(subjects_to_create), batch_size):
+            Subject.objects.bulk_create(subjects_to_create[i:i + batch_size], ignore_conflicts=True)
 
         self.stdout.write(self.style.SUCCESS(
-            f'\nDone!  '
-            f'{College.objects.count()} universities  |  '
+            f'\nDone!  {College.objects.count()} universities  |  '
             f'{Branch.objects.count()} branches  |  '
-            f'{Subject.objects.count()} subjects  '
-            f'({skipped} unknown branch codes skipped)'
+            f'{Subject.objects.count()} subjects'
         ))

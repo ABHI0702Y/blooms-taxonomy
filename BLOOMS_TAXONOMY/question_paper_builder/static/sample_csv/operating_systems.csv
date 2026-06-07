@@ -1,0 +1,41 @@
+question
+Define operating system. List its main functions.
+What is a process? How is it different from a program?
+Define CPU scheduling. List the common scheduling algorithms.
+What is a semaphore? How is it used for process synchronization?
+Define virtual memory. What is paging?
+What is a deadlock? List the four necessary conditions for deadlock.
+Define file system. List the types of file allocation methods.
+What is context switching? What overhead does it introduce?
+Define thrashing. What causes it in an operating system?
+What is a system call? Give three examples.
+Explain the producer-consumer problem. Solve it using semaphores.
+Describe the working of the Round Robin scheduling algorithm. How does the time quantum affect performance?
+Explain the Banker's algorithm for deadlock avoidance. Trace its execution on a given resource allocation example.
+Describe the working of demand paging. How does the page fault handler respond to a fault?
+Compare internal and external fragmentation. How does compaction and paging address each type?
+Explain the working of the LRU page replacement algorithm. Compare it with FIFO and Optimal using the same reference string.
+Describe the differences between process and thread. How do user-level threads differ from kernel-level threads?
+Explain the concept of priority inversion. How does the priority inheritance protocol solve it?
+Describe segmentation versus paging as memory management techniques. What are the advantages of combining both?
+Explain the working of the Linux process scheduler (CFS). How does it ensure fairness among processes?
+Design a scheduling algorithm for a real-time embedded system where 5 periodic tasks have different deadlines and CPU requirements.
+Evaluate the trade-offs between monolithic kernel and microkernel architecture. Justify which is better for a mobile OS.
+Critically analyze the impact of multicore processors on traditional synchronization primitives. Propose a lock-free solution.
+Design a memory management scheme for an operating system with 4GB RAM and 256-bit virtual address space.
+Propose a file system design for a distributed storage system that ensures consistency despite node failures.
+Analyze the security implications of buffer overflow vulnerabilities. Propose OS-level countermeasures like ASLR and stack canaries.
+Critically evaluate the use of copy-on-write in modern operating systems. How does it benefit process forking performance?
+Design an I/O scheduling strategy for an SSD-based system. Justify why elevator algorithms are inappropriate for SSDs.
+Evaluate the effectiveness of hypervisors (Type 1 vs Type 2) for cloud virtualization. Compare KVM and VMware ESXi.
+Propose a solution for the readers-writers problem that avoids starvation of writers. Justify your approach.
+What is RAID? Explain RAID 0, RAID 1 and RAID 5 with their advantages and disadvantages.
+Explain the concept of fork() and exec() system calls in Unix. How are they used together to create a new process?
+What is inter-process communication? Describe pipes, message queues and shared memory.
+Explain the concept of spin lock. When is it more efficient than a mutex?
+What is a zombie process? How is it different from an orphan process?
+Describe the directory structure in Unix/Linux file systems. Explain inode and its role.
+What is preemptive scheduling? How does it differ from non-preemptive scheduling?
+Explain the memory hierarchy. How does caching improve system performance?
+Define critical section problem. State the three requirements for a correct solution.
+What is swapping in operating systems? How does it differ from paging?

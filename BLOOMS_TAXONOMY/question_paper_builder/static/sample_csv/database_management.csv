@@ -1,0 +1,41 @@
+question
+Define DBMS. List its advantages over file-based systems.
+What is a relational database? Define relation, tuple and attribute.
+Define primary key and foreign key with examples.
+What is SQL? List the categories of SQL commands.
+Define normalization. What is the purpose of normalization?
+What is a transaction? List the ACID properties.
+Define an index in DBMS. What is its purpose?
+What is a view in SQL? How is it different from a table?
+Define ER diagram. List its components.
+What is a deadlock in DBMS? How can it be detected?
+Explain 1NF, 2NF and 3NF with suitable examples. Why is normalization important for database design?
+Describe the ACID properties of transactions with examples. How does a DBMS enforce atomicity?
+Explain the different types of joins in SQL: INNER, LEFT, RIGHT and FULL OUTER JOIN with examples.
+Describe B+ tree indexing. How does it improve query performance compared to sequential search?
+Explain the two-phase locking protocol. How does it ensure serializability?
+Compare OLTP and OLAP systems. How do their schema designs (normalized vs star schema) reflect their use cases?
+Explain query optimization in DBMS. Describe the role of the query parser, optimizer and executor.
+Describe the concept of functional dependency and Armstrong's axioms. How are they used to find the canonical cover?
+Explain MVCC (Multiversion Concurrency Control). How does PostgreSQL implement it?
+Describe distributed database architectures. What are the CAP theorem's implications for distributed DBMS?
+Design a relational schema for a hospital management system with entities: Patient, Doctor, Appointment, Ward and Billing. Normalize to 3NF.
+Evaluate the trade-offs between NoSQL and relational databases for a social media application with 100 million users.
+Design a sharding strategy for a database with 1 billion records. Discuss hash-based versus range-based sharding trade-offs.
+Critically analyze the use of denormalization in a data warehouse. When does it outperform normalized schemas?
+Propose a disaster recovery strategy for a mission-critical banking database. Justify your choice of replication and backup mechanisms.
+Formulate an indexing strategy for a e-commerce product catalog with frequent range queries on price and category filters.
+Design a schema for a real-time analytics system using a time-series database. Compare InfluxDB and TimescaleDB approaches.
+Evaluate the consistency models: strong, eventual and causal consistency. When is each acceptable in distributed systems?
+Critically compare row-oriented and column-oriented storage for analytical workloads with justification.
+Propose a solution for handling JSON data in a relational database. Compare native JSON columns versus a dedicated document store.
+What is a stored procedure? What are its advantages over embedded SQL?
+Explain the concept of cursor in SQL. Write an example using a cursor for iterative processing.
+What is database replication? Differentiate between synchronous and asynchronous replication.
+Explain the concept of shadow paging for transaction recovery. How does it compare to log-based recovery?
+What is referential integrity? How are CASCADE DELETE and SET NULL constraints used?
+Define domain, tuple and attribute-level constraints. Give SQL examples for each.
+Explain the concept of weak entity in ER modeling. Give an example.
+What is a trigger in DBMS? Write a trigger that logs changes to a salary table.
+Explain the difference between clustered and non-clustered indexes.
+What is a data warehouse? How does ETL process populate it?

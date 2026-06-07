@@ -1,0 +1,41 @@
+question
+Define software engineering. Why is it needed?
+What is SDLC? List the phases of software development life cycle.
+Define requirement engineering. What are functional and non-functional requirements?
+What is a use case diagram? List its components.
+Define cohesion and coupling in software design.
+What is a design pattern? Give three examples.
+Define software testing. List the levels of testing.
+What is version control? Give two examples of version control systems.
+Define refactoring. Why is it important in software development?
+What is Agile methodology? List its core principles from the Agile Manifesto.
+Explain the differences between Waterfall and Agile development models. When is each approach appropriate?
+Describe the SOLID principles of object-oriented design with examples. How do they improve maintainability?
+Explain the concept of software architecture. Compare layered architecture with microservices architecture.
+Describe test-driven development (TDD). Explain the red-green-refactor cycle with an example.
+Explain the concept of technical debt. How can it be measured and managed in a large software project?
+Compare black-box testing and white-box testing. Describe boundary value analysis and equivalence partitioning.
+Explain the concept of continuous integration and continuous deployment (CI/CD). How do tools like Jenkins implement it?
+Describe the MVC, MVP and MVVM design patterns. Compare their separation of concerns and testability.
+Explain software metrics: cyclomatic complexity, lines of code and code coverage. How are they used in quality assurance?
+Describe the concept of domain-driven design (DDD). How do bounded contexts and aggregate roots organize complex domains?
+Design a software architecture for a distributed e-commerce platform handling 10,000 transactions per second. Address scalability and fault tolerance.
+Critically evaluate the use of microservices for a startup versus an enterprise. What organizational and technical factors influence the decision?
+Propose a comprehensive testing strategy for a safety-critical avionics software system. Justify your choice of testing levels and techniques.
+Analyze the trade-offs between monolithic and event-driven architecture for a real-time financial trading system.
+Design a change management process for migrating a legacy COBOL banking system to a modern Java microservices architecture.
+Critically evaluate formal verification methods versus testing for ensuring software correctness. When is formal verification justified?
+Propose a DevSecOps pipeline integrating security testing at each stage of the CI/CD pipeline. Justify the tools and practices.
+Evaluate the effectiveness of pair programming and code reviews in reducing defect density. Analyze empirical evidence.
+Design a software estimation strategy for a large government project with vague requirements. Justify your approach.
+Critically analyze Conway's Law and its implications for software architecture in large organizations.
+What is a design pattern? Explain the Singleton, Observer and Factory design patterns with UML diagrams.
+Explain the concept of software reuse. Describe component-based software engineering.
+What is software configuration management? Explain branching strategies like Gitflow.
+Describe the concept of software prototyping. When is throwaway prototyping appropriate?
+What is a software requirement specification (SRS)? List the qualities of a good SRS.
+Explain the concept of software risk management. Describe the risk identification and mitigation process.
+What is pair programming? What are its advantages and disadvantages?
+Explain the concept of code smell. Give five examples and their refactoring solutions.
+What is the difference between verification and validation in software testing?
+Define software maintenance. List the types of software maintenance activities.

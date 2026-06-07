@@ -1,0 +1,41 @@
+question
+Define HTML. List the basic structure of an HTML document.
+What is CSS? How is it linked to an HTML page?
+Define JavaScript. How is it different from Java?
+What is a web server? Give two examples.
+Define HTTP and HTTPS. What is the difference?
+What is a cookie? How is it used in web applications?
+Define AJAX. What problem does it solve in web development?
+What is a REST API? List its constraints.
+Define responsive web design. What is a media query?
+What is Node.js? How does it differ from traditional server-side technologies?
+Explain the Document Object Model (DOM). How does JavaScript interact with it to create dynamic web pages?
+Describe the difference between sessionStorage, localStorage and cookies. When would you use each?
+Explain CORS (Cross-Origin Resource Sharing). Why is it needed and how is it configured on the server?
+Describe the MVC architecture in web development. How does a framework like Django implement it?
+Explain RESTful API design principles. How do HTTP methods map to CRUD operations?
+Compare server-side rendering (SSR) and client-side rendering (CSR). Analyze their impact on SEO and performance.
+Explain the event loop in Node.js. How does it enable non-blocking I/O despite JavaScript being single-threaded?
+Describe OAuth 2.0 flow. How does it enable secure third-party authentication without sharing passwords?
+Explain WebSockets. How do they differ from HTTP polling and long-polling for real-time applications?
+Describe the critical rendering path in browsers. How can it be optimized for faster page load?
+Design a scalable RESTful API for a food delivery application. Address authentication, rate limiting and versioning.
+Critically evaluate the use of microservices versus monolithic architecture for a large e-commerce platform.
+Design a progressive web application (PWA) for offline-capable news reading. Address caching strategy and sync.
+Evaluate the security vulnerabilities (XSS, CSRF, SQL Injection) in a web application and propose mitigations.
+Propose a GraphQL schema for a social networking platform. Compare its advantages over REST for complex queries.
+Design a CI/CD pipeline for a web application deployment. Justify the tools and stages you would include.
+Critically analyze the trade-offs of using a CDN versus edge computing for serving dynamic content globally.
+Propose an accessibility strategy (WCAG 2.1 compliance) for a government web portal. Justify each guideline.
+Evaluate the performance impact of HTTP/2 and HTTP/3 over HTTP/1.1 for a media-heavy website.
+Design a real-time collaborative document editing system using WebSockets and operational transformation.
+What is the same-origin policy? How do browsers enforce it?
+Explain the concept of virtual DOM used by React. How does it improve rendering performance?
+What is a CDN? How does it reduce latency for global users?
+Explain the difference between GET and POST methods. When should each be used?
+What is a web socket? How does it enable real-time bidirectional communication?
+Explain the concept of middleware in Express.js. Give an example of custom middleware.
+What is server-side caching? Explain Redis caching with a web application example.
+Define microservices. How do they differ from monolithic applications?
+Explain the concept of JWT (JSON Web Tokens). How are they used for stateless authentication?
+What is webpack? How does it help in bundling JavaScript modules for production?

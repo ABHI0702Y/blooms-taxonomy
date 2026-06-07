@@ -1,0 +1,41 @@
+question
+Define computer network. List the types of networks based on geographic area.
+What is the OSI model? Name all seven layers.
+Define protocol. Give three examples of network protocols.
+What is an IP address? Differentiate between IPv4 and IPv6.
+Define bandwidth and latency. How do they affect network performance?
+What is a router? How does it differ from a switch?
+Define DNS. What is its role in the internet?
+What is HTTP? List the common HTTP methods.
+Define subnetting. What is a subnet mask?
+What is a firewall? List its types.
+Explain the TCP three-way handshake. Why is it necessary for establishing a reliable connection?
+Describe the differences between TCP and UDP. Give two applications for each.
+Explain the working of ARP protocol. How does it resolve IP addresses to MAC addresses?
+Describe the sliding window protocol. How does it improve network throughput?
+Explain DHCP. Describe the four steps of DHCP address assignment process.
+Compare circuit switching and packet switching. Analyze their suitability for voice and data transmission.
+Explain the working of OSPF routing protocol. How does it compute the shortest path?
+Describe the HTTPS handshake process. How does TLS ensure confidentiality and integrity?
+Explain NAT. How does it allow multiple devices to share a single public IP address?
+Describe BGP and its role in inter-domain routing. What are the challenges it faces at scale?
+Design a network topology for a company with 500 employees across three floors. Justify your choice of equipment and addressing scheme.
+Evaluate the security implications of using public Wi-Fi. Propose a mitigation strategy using VPN and SSL/TLS.
+Analyze the congestion control mechanisms in TCP (slow start, congestion avoidance, fast retransmit). How does CUBIC TCP improve upon Reno?
+Design a CDN architecture to serve a streaming service to 10 million concurrent users. Address latency, bandwidth and fault tolerance.
+Critically compare SDN with traditional networking. What are the challenges of deploying SDN in enterprise networks?
+Propose a solution for securing an IoT network with thousands of constrained devices. Justify your protocol choices.
+Evaluate IPv6 adoption challenges. What transition mechanisms like tunneling and dual stack address these challenges?
+Design a load balancing strategy for a high-availability web application. Compare DNS round-robin, L4 and L7 load balancers.
+Analyze the impact of deep packet inspection on network security and user privacy. Propose a balanced policy framework.
+Compare MPLS and traditional IP routing. How does MPLS improve QoS for real-time traffic?
+What is CSMA/CD? Explain how it handles collisions in Ethernet networks.
+Explain the working of VLAN. Why are VLANs used in enterprise networks?
+What is Quality of Service (QoS)? Describe two mechanisms used to implement it.
+Explain error detection methods: parity check, CRC and checksum. Compare their error detection capabilities.
+What is a VPN? Explain how it provides secure remote access.
+Describe the differences between FTP and SFTP. Which is more secure and why?
+Explain ICMP and its role in network diagnostics. How is it used by ping and traceroute?
+What is network topology? Compare star, bus, ring and mesh topologies.
+Define socket programming. What are the steps to create a TCP server-client application?
+Explain the concept of port numbers. How do well-known ports differ from ephemeral ports?

@@ -1,0 +1,41 @@
+question
+Define deep learning. How is it different from traditional machine learning?
+What is a convolutional neural network? List its main layers.
+Define activation function. Give three examples used in deep learning.
+What is batch normalization? Why is it used?
+Define dropout. How does it prevent overfitting?
+What is a recurrent neural network? What problem does it solve?
+Define LSTM. What problem of vanilla RNN does it address?
+What is transfer learning? Give two examples of pre-trained models.
+Define an autoencoder. List its components.
+What is a GAN? Define generator and discriminator.
+Explain the backpropagation algorithm through time (BPTT). How does it suffer from vanishing gradients?
+Describe the architecture of ResNet. How do skip connections solve the vanishing gradient problem?
+Explain the attention mechanism in neural networks. How does self-attention work in the Transformer architecture?
+Describe the YOLO object detection algorithm. How does it achieve real-time detection?
+Explain the working of a Variational Autoencoder (VAE). How does it differ from a standard autoencoder?
+Compare CNN and Vision Transformer (ViT) for image classification. Analyze their data requirements and inductive biases.
+Explain the Transformer architecture in detail. How do multi-head attention and positional encoding work together?
+Describe the training process of GANs. What are mode collapse and training instability? How can they be addressed?
+Explain the concept of neural architecture search (NAS). How does it automate the design of optimal network architectures?
+Describe the BERT pre-training objectives (MLM and NSP). How is fine-tuning performed for downstream tasks?
+Design a deep learning architecture for detecting plant diseases from leaf images with limited labeled data.
+Critically evaluate the interpretability of deep neural networks. Propose explainability techniques for a medical imaging application.
+Analyze the computational and environmental cost of training large language models. Propose efficiency improvements.
+Design a federated learning system for training a deep learning model on sensitive healthcare data across hospitals.
+Formulate a curriculum learning strategy for training a model on a dataset with varying difficulty samples.
+Critically compare knowledge distillation and model pruning for deploying deep learning models on edge devices.
+Propose a neural network architecture for multi-modal learning combining image and text inputs. Justify design choices.
+Evaluate the use of adversarial training for improving robustness of deep learning models. Discuss trade-offs.
+Design a self-supervised learning framework for learning visual representations without labeled data.
+Critically analyze the scaling laws for large language models. What do they imply for future AI development?
+What is semantic segmentation? How does the U-Net architecture achieve it?
+Explain the concept of word embeddings. How does Word2Vec learn them using skip-gram and CBOW?
+What is reinforcement learning from human feedback (RLHF)? How is it used to align language models?
+Explain the concept of neural style transfer. How does it use CNN feature maps?
+What is a capsule network? How does it improve upon CNNs for pose estimation?
+Explain the concept of contrastive learning. How does SimCLR use it for self-supervised representation learning?
+What is quantization in deep learning? How does it reduce model size and inference time?
+Explain the concept of depthwise separable convolutions. How does MobileNet use them for efficiency?
+What is the vanishing gradient problem? How do LSTM and ResNet architectures address it?
+Explain the concept of data augmentation in deep learning. Give five techniques used for image classification.

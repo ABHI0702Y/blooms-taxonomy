@@ -1,0 +1,41 @@
+question
+Define Artificial Intelligence. List the major goals of AI research.
+What is the Turing test? What does it measure?
+Define an intelligent agent. List its components.
+What is a knowledge base in AI? Give an example.
+Define heuristic search. How is it different from brute-force search?
+What is natural language processing? Give two application areas.
+Define expert system. List its components.
+What is a neural network? Define neuron, weight and activation function.
+Define computer vision. List three real-world applications.
+What is planning in AI? Give an example of a planning problem.
+Explain the A* search algorithm. How does the heuristic function affect its performance and completeness?
+Describe the minimax algorithm for adversarial search. How does alpha-beta pruning improve its efficiency?
+Explain the working of a Bayesian network. How is conditional independence represented and used for inference?
+Describe the STRIPS planning language. How are actions represented using preconditions and effects?
+Explain the concept of fuzzy logic. How does it differ from classical Boolean logic and where is it applied?
+Compare forward chaining and backward chaining in rule-based expert systems. When is each approach preferred?
+Explain constraint satisfaction problems. Describe backtracking with arc consistency (AC-3) for solving CSPs.
+Describe the working of Genetic Algorithms. How are selection, crossover and mutation operators applied?
+Explain the Expectation-Maximization algorithm. How is it applied to the Gaussian Mixture Model?
+Describe the PDDL representation for AI planning. How does GraphPlan use it to find efficient solutions?
+Design an AI system for autonomous medical diagnosis. Address knowledge representation, reasoning under uncertainty and explainability.
+Critically evaluate the ethical implications of using AI in criminal justice systems (e.g., recidivism prediction). Propose fairness constraints.
+Analyze the limitations of the Turing test as a measure of machine intelligence. Propose a more comprehensive benchmark.
+Design a multi-agent system for smart traffic management. Address communication, coordination and emergent behavior.
+Formulate a solution for the frame problem in AI planning. How do non-monotonic reasoning approaches address it?
+Critically compare symbolic AI and sub-symbolic AI approaches. In what domains does each excel and why?
+Propose an architecture for a conversational AI assistant that handles ambiguity, context switching and knowledge updates.
+Evaluate the role of transfer learning in overcoming the brittleness of expert systems. Give concrete examples.
+Design an adversarial robustness strategy for a deep learning model used in autonomous vehicles. Justify your approach.
+Critically analyze the concept of artificial general intelligence (AGI). What are the key open research challenges?
+What is the difference between strong AI and weak AI? Give examples of each.
+Explain the concept of reinforcement learning. Define reward, state, action and Q-value.
+What is a Markov Decision Process? How is it used in AI planning?
+Explain the concept of ontology in AI. How is OWL used to represent knowledge?
+What is propositional logic? How is it used in AI for knowledge representation?
+Define automated reasoning. Explain resolution as an inference procedure.
+What is case-based reasoning? Describe the CBR cycle.
+Explain the working of Hidden Markov Models. Give an application in speech recognition.
+What is swarm intelligence? Explain Ant Colony Optimization with an example.
+Define semantic networks. How do they represent knowledge in AI systems?

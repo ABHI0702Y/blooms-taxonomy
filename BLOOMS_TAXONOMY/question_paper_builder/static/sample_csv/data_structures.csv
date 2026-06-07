@@ -1,0 +1,41 @@
+question
+Define a stack. List its basic operations with their time complexities.
+What is a queue? How does it differ from a stack?
+Define linked list. What are its advantages over arrays?
+What is a binary tree? Define height, depth and level of a node.
+List the properties of a Binary Search Tree.
+Define hashing. What is a hash function?
+What is a graph? Define vertices, edges, directed and undirected graphs.
+Define recursion. Write a recursive function to compute factorial of n.
+What is a heap? Differentiate between min-heap and max-heap.
+Define Big O notation. What is the time complexity of linear search?
+Explain the working of bubble sort algorithm with an example. Analyze its best and worst case complexity.
+Write an algorithm to implement a queue using two stacks. Justify your approach.
+Explain depth-first search and breadth-first search. Compare their space complexities.
+Describe the insertion and deletion operations in an AVL tree. How are rotations used to maintain balance?
+Explain Dijkstra's algorithm for shortest path. Trace its execution on a given weighted graph.
+Write and explain the merge sort algorithm. Prove its time complexity using recurrence relations.
+Explain open addressing and chaining as collision resolution techniques in hash tables.
+Describe the operations on a doubly linked list. Compare it with singly linked list in terms of memory and operations.
+Explain the concept of dynamic programming. Solve the 0/1 Knapsack problem using DP with an example.
+Trace the execution of quicksort on the array [64, 34, 25, 12, 22, 11, 90]. Analyze its average case complexity.
+Design a data structure that supports insert, delete and getMin operations all in O(1) time. Justify your design.
+Evaluate the trade-offs between adjacency matrix and adjacency list representation of graphs for sparse and dense graphs.
+Design an LRU cache using appropriate data structures. Write the code for get and put operations with O(1) complexity.
+Critically compare B-trees and B+ trees. Why are B+ trees preferred in database indexing?
+Formulate a solution for the Travelling Salesman Problem using dynamic programming. Analyze its complexity.
+Propose an efficient algorithm to detect a cycle in a directed graph. Justify the choice of data structure.
+Analyze the amortized time complexity of push and pop operations in a dynamic array.
+Design a trie data structure for auto-complete functionality. Discuss space optimization techniques.
+Evaluate when to use a red-black tree over an AVL tree in practice. Justify with real-world examples.
+Compare segment tree and Fenwick tree for range query problems. When is each preferred?
+What is a spanning tree? Explain Kruskal's algorithm for finding minimum spanning tree.
+Explain the tower of Hanoi problem. Write a recursive solution and derive its time complexity.
+What is topological sorting? Explain its application in task scheduling.
+Define a deque. List its operations and give a practical use case.
+Explain the concept of a priority queue. How is it implemented using a heap?
+What is the difference between a complete binary tree and a full binary tree?
+Explain infix, prefix and postfix expressions. Write an algorithm to evaluate a postfix expression.
+What is Floyd-Warshall algorithm? When is it preferred over Dijkstra's algorithm?
+Define a sparse matrix. How is it stored efficiently in memory?
+Explain the working of counting sort and radix sort. When are they preferred over comparison-based sorts?

@@ -1,0 +1,41 @@
+question
+Define machine learning. List the types of machine learning with examples.
+What is supervised learning? Give two real-world examples.
+Define overfitting and underfitting in machine learning models.
+What is a confusion matrix? Define precision, recall and F1-score.
+List the steps involved in a typical machine learning pipeline.
+What is the difference between classification and regression?
+Define training set, validation set and test set.
+What is a support vector machine? Explain the concept of hyperplane and margin.
+Explain the working of K-Nearest Neighbours algorithm with an example.
+What is the bias-variance tradeoff? How does it affect model performance?
+Derive the cost function for linear regression and explain gradient descent optimization.
+Explain the working of Decision Tree algorithm. How is information gain calculated?
+Compare and contrast Bagging and Boosting ensemble techniques with suitable examples.
+Explain the Naive Bayes classifier. Under what assumption does it work and when does it fail?
+Describe the K-Means clustering algorithm. What are its limitations and how can they be addressed?
+Explain Principal Component Analysis. How does it reduce dimensionality while preserving variance?
+What is cross-validation? Explain k-fold cross-validation and its advantages over holdout validation.
+Explain the working of Random Forest. How does it reduce variance compared to a single decision tree?
+Derive the backpropagation algorithm for a two-layer neural network with sigmoid activation.
+Analyze the effect of learning rate on gradient descent convergence. How do adaptive methods like Adam improve upon it?
+Design a machine learning pipeline for a spam detection system. Justify each step and the choice of algorithm.
+Evaluate the performance of SVM versus Logistic Regression for a binary classification problem with imbalanced classes.
+How would you handle missing values and categorical variables in a real-world dataset before training a model?
+Compare L1 and L2 regularization. In what scenarios would you prefer one over the other?
+Propose a solution for a recommendation system using collaborative filtering. Discuss its scalability challenges.
+Critically evaluate the use of accuracy as a metric for imbalanced datasets. Suggest better alternatives with justification.
+Design an experiment to determine the optimal number of clusters in K-Means. Justify your methodology.
+Formulate a transfer learning strategy for a medical image classification task with limited labeled data.
+Explain SMOTE technique for handling class imbalance. When is it inappropriate to use?
+Compare XGBoost and LightGBM. What architectural differences make LightGBM faster on large datasets?
+What is reinforcement learning? Explain the concepts of agent, environment, reward and policy.
+Explain the ROC curve and AUC. How are they used to compare classifiers?
+What is feature engineering? Give three examples of feature transformations used in practice.
+Define the curse of dimensionality. How does it affect distance-based algorithms like KNN?
+Explain Logistic Regression. How is it different from Linear Regression despite the name?
+What is a kernel function in SVM? Explain the RBF kernel and its effect on the decision boundary.
+Describe the steps to preprocess text data for a sentiment analysis classification task.
+Explain the concept of ensemble learning. Why do ensembles generally outperform individual models?
+What is grid search? How is it used for hyperparameter tuning?
+Explain the difference between parametric and non-parametric models with two examples each.

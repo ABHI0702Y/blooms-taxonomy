@@ -2,44 +2,63 @@
 {% block title %}Question Paper — {{ subject_data.subject_name }}{% endblock %}
 {% block extra_head %}
 <style>
-  .paper-wrapper { max-width: 900px; margin: 2rem auto; }
-  .paper-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.1); overflow: hidden; }
-  .paper-header { border-bottom: 2px solid #222; padding: 1.2rem 1.5rem; }
-  .paper-header h3 { font-size: 1.3rem; font-weight: 800; margin: 0; }
-  .paper-header h5 { font-size: 1rem; font-weight: 500; margin: 0; color: #444; }
-  table { width: 100%; border-collapse: collapse; }
-  table, th, td { border: 1px solid #333; }
-  th { background: linear-gradient(90deg,#1e1b4b,#3730a3); color: #fff; font-size: .85rem; padding: 8px 10px; }
-  td { padding: 8px 10px; font-size: .9rem; vertical-align: top; }
-  td:first-child, td:last-child { white-space: nowrap; text-align: center; }
-  .blooms-tag { font-size: .7rem; font-weight: 700; border-radius: 20px; padding: 2px 10px; display: inline-block; }
-  .section-row td { background: #ede9fe; font-weight: 600; font-size: .85rem; color: #1e1b4b; }
-  .or-row td { background: #fce4ec; text-align: center; font-weight: 700; color: #c62828; border: none; padding: 4px; }
+  .paper-wrapper { max-width: 960px; margin: 2rem auto; }
 
-  /* Analytics panel */
+  /* ── SPPU Paper Card ── */
+  .paper-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.1); overflow: hidden; }
+  .sppu-header { border-bottom: 3px double #222; padding: 1rem 1.5rem; text-align: center; }
+  .sppu-header .univ-name { font-size: .8rem; font-weight: 600; letter-spacing: .5px; color: #555; text-transform: uppercase; }
+  .sppu-header .college-name { font-size: 1.25rem; font-weight: 800; color: #1e1b4b; margin: 4px 0; }
+  .sppu-header .branch-name  { font-size: .95rem; font-weight: 500; color: #3730a3; }
+  .meta-bar { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-bottom: 2px solid #222; }
+  .meta-bar .meta-cell { padding: .5rem 1rem; font-size: .82rem; border-right: 1px solid #ccc; }
+  .meta-bar .meta-cell:last-child { border-right: none; }
+  .meta-bar .meta-cell strong { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .5px; color: #888; }
+  .instr-bar { padding: .5rem 1.5rem; background: #fffde7; border-bottom: 1px solid #e6cc00; font-size: .82rem; }
+  table { width: 100%; border-collapse: collapse; }
+  table, th, td { border: 1px solid #444; }
+  th { background: linear-gradient(90deg,#1e1b4b,#3730a3); color: #fff; font-size: .8rem; padding: 8px 10px; }
+  td { padding: 8px 10px; font-size: .88rem; vertical-align: middle; }
+  td:first-child, td:nth-child(3), td:nth-child(4), td:last-child { white-space: nowrap; text-align: center; }
+  .blooms-tag  { font-size: .65rem; font-weight: 700; border-radius: 20px; padding: 2px 8px; display: inline-block; }
+  .co-tag      { font-size: .7rem; font-weight: 700; border-radius: 4px; padding: 2px 6px; background: #e0e7ff; color: #3730a3; display: inline-block; }
+  .section-row td { background: #ede9fe; font-weight: 600; font-size: .82rem; color: #1e1b4b; }
+  .or-row td   { background: #fce4ec; text-align: center; font-weight: 700; color: #c62828; border: none; padding: 3px; font-size: .8rem; }
+  .swap-btn    { background: none; border: 1px dashed #a5b4fc; color: #6366f1; border-radius: 4px; padding: 2px 6px; font-size: .65rem; cursor: pointer; opacity: .7; transition: .15s; white-space: nowrap; }
+  .swap-btn:hover { opacity: 1; background: #ede9fe; }
+
+  /* ── Analytics Panel ── */
   .analytics-panel { background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); padding: 1.5rem; margin-bottom: 1.2rem; }
   .grade-badge { font-size: 2.8rem; font-weight: 900; line-height: 1; }
-  .score-bar { height: 8px; border-radius: 4px; background: #e0e0e0; overflow: hidden; }
-  .score-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
-  .set-btn { border: 2px solid #4f46e5; color: #4f46e5; background: #fff; padding: 4px 18px; border-radius: 20px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: .15s; }
+  .score-bar   { height: 8px; border-radius: 4px; background: #e0e0e0; overflow: hidden; }
+  .score-fill  { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .set-btn     { border: 2px solid #4f46e5; color: #4f46e5; background: #fff; padding: 4px 18px; border-radius: 20px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: .15s; }
   .set-btn.active { background: linear-gradient(135deg,#3730a3,#4f46e5); color: #fff; border-color: #4f46e5; }
+  .suggestion-box { background: linear-gradient(135deg,#fff7ed,#fffbeb); border: 1px solid #f59e0b; border-radius: 8px; padding: .7rem 1rem; font-size: .82rem; color: #92400e; }
+  .co-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; }
 
   /* Dark mode */
   [data-bs-theme="dark"] .paper-card { background: #181628 !important; color: #e2e8f0; }
-  [data-bs-theme="dark"] .paper-header { border-color: #3d3b6b !important; }
-  [data-bs-theme="dark"] .paper-header h3 { color: #e2e8f0; }
-  [data-bs-theme="dark"] .paper-header h5 { color: #94a3b8 !important; }
+  [data-bs-theme="dark"] .sppu-header .college-name { color: #c7d2fe !important; }
+  [data-bs-theme="dark"] .sppu-header .branch-name  { color: #a5b4fc !important; }
+  [data-bs-theme="dark"] .sppu-header .univ-name    { color: #7c7ca8 !important; }
+  [data-bs-theme="dark"] .sppu-header     { border-color: #3d3b6b !important; }
+  [data-bs-theme="dark"] .meta-bar        { border-color: #3d3b6b !important; }
+  [data-bs-theme="dark"] .meta-bar .meta-cell { border-color: #2d2b4e !important; color: #e2e8f0; }
+  [data-bs-theme="dark"] .meta-bar .meta-cell strong { color: #7c7ca8 !important; }
   [data-bs-theme="dark"] table, [data-bs-theme="dark"] th, [data-bs-theme="dark"] td { border-color: #3d3b6b !important; }
-  [data-bs-theme="dark"] td { color: #e2e8f0; }
+  [data-bs-theme="dark"] td   { color: #e2e8f0; }
   [data-bs-theme="dark"] .section-row td { background: #2d2b4e !important; color: #a5b4fc !important; }
   [data-bs-theme="dark"] .or-row td   { background: #2a1525 !important; color: #f87171 !important; }
+  [data-bs-theme="dark"] .instr-bar   { background: #1e1c10 !important; border-color: #6b5800 !important; color: #e2e8f0; }
+  [data-bs-theme="dark"] .co-tag      { background: #1e1c4e !important; color: #a5b4fc !important; }
+  [data-bs-theme="dark"] .swap-btn    { border-color: #4c4a72 !important; color: #818cf8 !important; }
+  [data-bs-theme="dark"] .swap-btn:hover { background: #2d2b4e !important; }
   [data-bs-theme="dark"] .analytics-panel { background: #181628 !important; border: 1px solid #2d2b4e; }
-  [data-bs-theme="dark"] .score-bar { background: #2d2b4e !important; }
-  [data-bs-theme="dark"] .set-btn { background: #1e1c35 !important; border-color: #818cf8 !important; color: #818cf8 !important; }
+  [data-bs-theme="dark"] .score-bar   { background: #2d2b4e !important; }
+  [data-bs-theme="dark"] .set-btn     { background: #1e1c35 !important; border-color: #818cf8 !important; color: #818cf8 !important; }
   [data-bs-theme="dark"] .set-btn.active { background: linear-gradient(135deg,#3730a3,#4f46e5) !important; color: #fff !important; }
-  [data-bs-theme="dark"] div[style*="background:#fffde7"] { background: #1e1c1a !important; color: #e2e8f0 !important; }
-  [data-bs-theme="dark"] div[style*="border-top:1px solid #ddd"] { border-color: #2d2b4e !important; color: #7c7ca8; }
-  [data-bs-theme="dark"] h5[style*="color:#1e1b4b"] { color: #c7d2fe !important; }
+  [data-bs-theme="dark"] .suggestion-box { background: #1e1500 !important; border-color: #92400e !important; color: #fcd34d !important; }
 
   @media print {
     .no-print { display: none !important; }
@@ -47,6 +66,12 @@
     .paper-wrapper { margin: 0; max-width: 100%; }
     .paper-card { box-shadow: none; border-radius: 0; }
     .analytics-panel { display: none !important; }
+    .swap-btn { display: none !important; }
+    [data-bs-theme="dark"] .paper-card { background: #fff !important; color: #000 !important; }
+    [data-bs-theme="dark"] td, [data-bs-theme="dark"] .meta-bar .meta-cell { color: #000 !important; }
+    [data-bs-theme="dark"] .section-row td { background: #ede9fe !important; color: #1e1b4b !important; }
+    [data-bs-theme="dark"] .instr-bar { background: #fffde7 !important; color: #000 !important; }
+    [data-bs-theme="dark"] .co-tag { background: #e0e7ff !important; color: #3730a3 !important; }
   }
 </style>
 {% endblock %}
@@ -55,270 +80,361 @@
 <div class="container paper-wrapper">
 
   <!-- Action bar -->
-  <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+  <div class="d-flex justify-content-between align-items-center mb-3 no-print flex-wrap gap-2">
     <div>
       <h5 class="fw-bold mb-0" style="color:#1e1b4b"><i class="bi bi-file-earmark-text me-2"></i>Generated Question Paper</h5>
-      <small class="text-muted">{{ subject_data.subject_name }} &mdash; {{ subject_data.exam_type }}</small>
+      <small class="text-muted">{{ subject_data.subject_name }}{% if subject_data.course_code %} ({{ subject_data.course_code }}){% endif %} &mdash; {{ subject_data.exam_type }}</small>
     </div>
-    <div class="d-flex gap-2">
-      <a href="/history" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>History</a>
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="/history"   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>History</a>
       <a href="/dashboard" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>New Paper</a>
-      <button onclick="window.print()" class="btn btn-primary btn-sm"><i class="bi bi-printer me-1"></i>Print / PDF</button>
+      <button id="downloadBtn" onclick="downloadPDF()" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-pdf me-1"></i>Download PDF</button>
+      <button onclick="window.print()" class="btn btn-primary btn-sm"><i class="bi bi-printer me-1"></i>Print</button>
     </div>
   </div>
 
-  <!-- ── Analytics Panel (no-print) ──────────────────────────────────── -->
+  <!-- ── Analytics Panel ──────────────────────────────────────────────────── -->
   <div class="analytics-panel no-print">
     <div class="row align-items-center g-4">
 
       <!-- Quality Score -->
       <div class="col-md-3 text-center border-end">
-        <div class="text-muted small fw-bold mb-1">PAPER QUALITY SCORE</div>
+        <div class="text-muted small fw-bold mb-1">PAPER QUALITY</div>
         <div class="grade-badge text-{{ quality_color }}">{{ quality_grade }}</div>
         <div class="text-muted small mt-1">{{ quality_score }}/100</div>
         <div class="score-bar mt-2">
           <div class="score-fill bg-{{ quality_color }}" style="width:{{ quality_score }}%"></div>
         </div>
-        <div class="text-muted" style="font-size:.72rem;margin-top:4px">{{ quality_msg }}</div>
+        <div class="text-muted mt-1" style="font-size:.7rem">{{ quality_msg }}</div>
+        <div class="mt-2 badge bg-info text-dark" style="font-size:.7rem">HOT: {{ hot_pct }}%</div>
       </div>
 
       <!-- Bloom's Distribution Chart -->
-      <div class="col-md-5 text-center">
-        <div class="text-muted small fw-bold mb-2">BLOOM'S LEVEL DISTRIBUTION</div>
-        <canvas id="bloomsChart" height="160"></canvas>
+      <div class="col-md-3 text-center">
+        <div class="text-muted small fw-bold mb-1">BLOOM'S LEVELS</div>
+        <canvas id="bloomsChart" height="150"></canvas>
+        <div id="chart-legend" class="mt-2 text-start" style="font-size:.72rem"></div>
       </div>
 
-      <!-- Legend + Set toggle -->
-      <div class="col-md-4">
-        <div class="text-muted small fw-bold mb-2">COGNITIVE LEVELS</div>
-        <div id="chart-legend" class="mb-3"></div>
+      <!-- CO Coverage Chart -->
+      <div class="col-md-3 text-center border-start border-end">
+        <div class="text-muted small fw-bold mb-1">CO COVERAGE</div>
+        <canvas id="coChart" height="150"></canvas>
+        <div id="co-legend" class="mt-2 text-start" style="font-size:.72rem"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="col-md-3">
         <div class="text-muted small fw-bold mb-2">PAPER VARIANT</div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 mb-3">
           <button class="set-btn active" id="btnSetA" onclick="showSet('A')">Set A</button>
           <button class="set-btn"        id="btnSetB" onclick="showSet('B')">Set B</button>
         </div>
-        <div class="text-muted mt-1" style="font-size:.72rem">Set B shuffles the OR alternatives</div>
+        <div class="text-muted mb-3" style="font-size:.72rem">Set B shuffles the OR alternatives. Each variant can be printed separately.</div>
+        {% if suggestion %}
+        <div class="suggestion-box"><i class="bi bi-lightbulb me-1"></i>{{ suggestion }}</div>
+        {% endif %}
       </div>
     </div>
   </div>
 
-  <!-- ── Question Paper Card ─────────────────────────────────────────── -->
-  <div class="paper-card">
-    <div class="paper-header text-center">
-      <h3>{{ subject_data.college_name }}</h3>
-      <h5 class="mt-1">{{ subject_data.branch_name }} &mdash; {{ subject_data.year }} &mdash; {{ subject_data.semester }}</h5>
+  <!-- ── SPPU Question Paper Card ─────────────────────────────────────────── -->
+  <div class="paper-card" id="paperCard">
+
+    <!-- SPPU Header -->
+    <div class="sppu-header">
+      <div class="univ-name">Savitribai Phule Pune University, Pune</div>
+      <div class="college-name">{{ subject_data.college_name }}</div>
+      <div class="branch-name">{{ subject_data.branch_name }} &mdash; {{ subject_data.year }} &mdash; {{ subject_data.semester }}</div>
     </div>
 
-    <div style="border-bottom:2px solid #222;padding:.8rem 1.5rem;">
-      <div class="row">
-        <div class="col-6 col-md-3"><strong>Exam:</strong> {{ subject_data.exam_type }}</div>
-        <div class="col-6 col-md-3"><strong>Subject:</strong> {{ subject_data.subject_name }}</div>
-        <div class="col-6 col-md-3"><strong>Date:</strong> {{ subject_data.date }}</div>
-        <div class="col-6 col-md-3"><strong>Faculty:</strong> {{ subject_data.faculty }}</div>
-      </div>
-      <div class="row mt-1">
-        <div class="col-6"><strong>Total Marks:</strong> 60</div>
-        <div class="col-6"><strong>Duration:</strong> 60 Minutes</div>
-      </div>
+    <!-- Meta bar -->
+    <div class="meta-bar">
+      <div class="meta-cell"><strong>Exam</strong>{{ subject_data.exam_type }}</div>
+      <div class="meta-cell"><strong>Subject{% if subject_data.course_code %} ({{ subject_data.course_code }}){% endif %}</strong>{{ subject_data.subject_name }}</div>
+      <div class="meta-cell"><strong>Faculty</strong>{{ subject_data.faculty }}</div>
+      <div class="meta-cell"><strong>Date</strong>{{ subject_data.date }}</div>
+      <div class="meta-cell"><strong>Total Marks</strong>60</div>
+      <div class="meta-cell"><strong>Duration</strong>60 Minutes</div>
     </div>
 
-    <div style="border-bottom:2px solid #222;padding:.6rem 1.5rem;background:#fffde7;">
+    <!-- Instructions -->
+    <div class="instr-bar">
       <strong>Instructions:</strong>
-      <ol class="mb-0 mt-1 small">
-        <li>Attempt Q1 or Q2, Q3 or Q4.</li>
-        <li>Draw neat diagrams wherever necessary.</li>
-        <li>Assume suitable data wherever necessary.</li>
-        <li>Figures to the right indicate full marks.</li>
-      </ol>
+      Attempt Q1 or Q2, Q3 or Q4. | Draw neat diagrams wherever necessary. | Assume suitable data wherever necessary. | Figures to the right indicate full marks.
     </div>
 
+    <!-- Question Table -->
     <div style="padding:1rem 1.5rem;">
       <table>
         <thead>
           <tr>
-            <th style="width:70px">Sr. No.</th>
+            <th style="width:60px">Sr. No.</th>
             <th>Question</th>
-            <th style="width:110px">Bloom's Level</th>
-            <th style="width:70px">Marks</th>
+            <th style="width:90px">Bloom's Level</th>
+            <th style="width:50px">CO</th>
+            <th style="width:55px">Marks</th>
+            <th style="width:60px" class="no-print">Swap</th>
           </tr>
         </thead>
 
-        <!-- SET A (default) -->
+        <!-- SET A (questions list: 0-indexed; paper layout: 10,8,6 | 9,7,5 | 4,2 | 3,1) -->
+        {% with q=questions %}
         <tbody id="setA">
-          <tr class="section-row"><td colspan="4">Q1 — Attempt any</td></tr>
+          <tr class="section-row"><td colspan="6">Q1 — Attempt any</td></tr>
           <tr>
-            <td>Q1.a</td><td>{{ subject_data.q10 }}</td>
-            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl10 }}</span></td>
-            <td>{{ subject_data.m10 }}</td>
+            <td>Q1.a</td><td class="q-text">{{ q.9.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.9.bloom_color }};color:#fff">{{ q.9.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.9.co }}</span></td><td>{{ q.9.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(10,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
           <tr>
-            <td>Q1.b</td><td>{{ subject_data.q8 }}</td>
-            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl8 }}</span></td>
-            <td>{{ subject_data.m8 }}</td>
+            <td>Q1.b</td><td class="q-text">{{ q.7.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.7.bloom_color }};color:#fff">{{ q.7.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.7.co }}</span></td><td>{{ q.7.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(8,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
           <tr>
-            <td>Q1.c</td><td>{{ subject_data.q6 }}</td>
-            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl6 }}</span></td>
-            <td>{{ subject_data.m6 }}</td>
+            <td>Q1.c</td><td class="q-text">{{ q.5.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.5.bloom_color }};color:#fff">{{ q.5.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.5.co }}</span></td><td>{{ q.5.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(6,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
-          <tr class="or-row"><td colspan="4">— OR —</td></tr>
-          <tr class="section-row"><td colspan="4">Q2 — Attempt any</td></tr>
+          <tr class="or-row"><td colspan="6">— OR —</td></tr>
+          <tr class="section-row"><td colspan="6">Q2 — Attempt any</td></tr>
           <tr>
-            <td>Q2.a</td><td>{{ subject_data.q9 }}</td>
-            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl9 }}</span></td>
-            <td>{{ subject_data.m9 }}</td>
-          </tr>
-          <tr>
-            <td>Q2.b</td><td>{{ subject_data.q7 }}</td>
-            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl7 }}</span></td>
-            <td>{{ subject_data.m7 }}</td>
+            <td>Q2.a</td><td class="q-text">{{ q.8.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.8.bloom_color }};color:#fff">{{ q.8.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.8.co }}</span></td><td>{{ q.8.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(9,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
           <tr>
-            <td>Q2.c</td><td>{{ subject_data.q5 }}</td>
-            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl5 }}</span></td>
-            <td>{{ subject_data.m5 }}</td>
-          </tr>
-          <tr class="section-row"><td colspan="4">Q3 — Attempt any</td></tr>
-          <tr>
-            <td>Q3.a</td><td>{{ subject_data.q4 }}</td>
-            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl4 }}</span></td>
-            <td>{{ subject_data.m4 }}</td>
+            <td>Q2.b</td><td class="q-text">{{ q.6.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.6.bloom_color }};color:#fff">{{ q.6.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.6.co }}</span></td><td>{{ q.6.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(7,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
           <tr>
-            <td>Q3.b</td><td>{{ subject_data.q2 }}</td>
-            <td><span class="blooms-tag bg-danger text-white">{{ subject_data.bl2 }}</span></td>
-            <td>{{ subject_data.m2 }}</td>
+            <td>Q2.c</td><td class="q-text">{{ q.4.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.4.bloom_color }};color:#fff">{{ q.4.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.4.co }}</span></td><td>{{ q.4.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(5,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
-          <tr class="or-row"><td colspan="4">— OR —</td></tr>
-          <tr class="section-row"><td colspan="4">Q4 — Attempt any</td></tr>
+          <tr class="section-row"><td colspan="6">Q3 — Attempt any</td></tr>
           <tr>
-            <td>Q4.a</td><td>{{ subject_data.q3 }}</td>
-            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl3 }}</span></td>
-            <td>{{ subject_data.m3 }}</td>
+            <td>Q3.a</td><td class="q-text">{{ q.3.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.3.bloom_color }};color:#fff">{{ q.3.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.3.co }}</span></td><td>{{ q.3.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(4,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
           <tr>
-            <td>Q4.b</td><td>{{ subject_data.q1 }}</td>
-            <td><span class="blooms-tag bg-secondary text-white">{{ subject_data.bl1 }}</span></td>
-            <td>{{ subject_data.m1 }}</td>
+            <td>Q3.b</td><td class="q-text">{{ q.1.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.1.bloom_color }};color:#fff">{{ q.1.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.1.co }}</span></td><td>{{ q.1.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(2,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
+          </tr>
+          <tr class="or-row"><td colspan="6">— OR —</td></tr>
+          <tr class="section-row"><td colspan="6">Q4 — Attempt any</td></tr>
+          <tr>
+            <td>Q4.a</td><td class="q-text">{{ q.2.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.2.bloom_color }};color:#fff">{{ q.2.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.2.co }}</span></td><td>{{ q.2.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(3,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
+          </tr>
+          <tr>
+            <td>Q4.b</td><td class="q-text">{{ q.0.text }}</td>
+            <td><span class="blooms-tag" style="background:{{ q.0.bloom_color }};color:#fff">{{ q.0.bloom }}</span></td>
+            <td><span class="co-tag">{{ q.0.co }}</span></td><td>{{ q.0.marks }}</td>
+            <td class="no-print"><button class="swap-btn" onclick="swapQ(1,this)"><i class="bi bi-arrow-repeat"></i> Swap</button></td>
           </tr>
         </tbody>
+        {% endwith %}
 
         <!-- SET B (OR alternatives swapped) -->
         <tbody id="setB" style="display:none">
-          <tr class="section-row"><td colspan="4">Q1 — Attempt any</td></tr>
+          <tr class="section-row"><td colspan="6">Q1 — Attempt any</td></tr>
           <tr>
             <td>Q1.a</td><td>{{ subject_data.q9 }}</td>
-            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl9 }}</span></td>
-            <td>{{ subject_data.m9 }}</td>
+            <td><span class="blooms-tag" style="background:#3f51b5;color:#fff">{{ subject_data.bl9 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co9 }}</span></td><td>{{ subject_data.m9 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q1.b</td><td>{{ subject_data.q7 }}</td>
-            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl7 }}</span></td>
-            <td>{{ subject_data.m7 }}</td>
+            <td><span class="blooms-tag" style="background:#17a2b8;color:#fff">{{ subject_data.bl7 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co7 }}</span></td><td>{{ subject_data.m7 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q1.c</td><td>{{ subject_data.q5 }}</td>
-            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl5 }}</span></td>
-            <td>{{ subject_data.m5 }}</td>
+            <td><span class="blooms-tag" style="background:#28a745;color:#fff">{{ subject_data.bl5 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co5 }}</span></td><td>{{ subject_data.m5 }}</td><td class="no-print"></td>
           </tr>
-          <tr class="or-row"><td colspan="4">— OR —</td></tr>
-          <tr class="section-row"><td colspan="4">Q2 — Attempt any</td></tr>
+          <tr class="or-row"><td colspan="6">— OR —</td></tr>
+          <tr class="section-row"><td colspan="6">Q2 — Attempt any</td></tr>
           <tr>
             <td>Q2.a</td><td>{{ subject_data.q10 }}</td>
-            <td><span class="blooms-tag bg-primary text-white">{{ subject_data.bl10 }}</span></td>
-            <td>{{ subject_data.m10 }}</td>
+            <td><span class="blooms-tag" style="background:#3f51b5;color:#fff">{{ subject_data.bl10 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co10 }}</span></td><td>{{ subject_data.m10 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q2.b</td><td>{{ subject_data.q8 }}</td>
-            <td><span class="blooms-tag bg-info text-dark">{{ subject_data.bl8 }}</span></td>
-            <td>{{ subject_data.m8 }}</td>
+            <td><span class="blooms-tag" style="background:#17a2b8;color:#fff">{{ subject_data.bl8 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co8 }}</span></td><td>{{ subject_data.m8 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q2.c</td><td>{{ subject_data.q6 }}</td>
-            <td><span class="blooms-tag bg-success text-white">{{ subject_data.bl6 }}</span></td>
-            <td>{{ subject_data.m6 }}</td>
+            <td><span class="blooms-tag" style="background:#28a745;color:#fff">{{ subject_data.bl6 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co6 }}</span></td><td>{{ subject_data.m6 }}</td><td class="no-print"></td>
           </tr>
-          <tr class="section-row"><td colspan="4">Q3 — Attempt any</td></tr>
+          <tr class="section-row"><td colspan="6">Q3 — Attempt any</td></tr>
           <tr>
             <td>Q3.a</td><td>{{ subject_data.q3 }}</td>
-            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl3 }}</span></td>
-            <td>{{ subject_data.m3 }}</td>
+            <td><span class="blooms-tag" style="background:#e6a817;color:#1e1b4b">{{ subject_data.bl3 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co3 }}</span></td><td>{{ subject_data.m3 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q3.b</td><td>{{ subject_data.q1 }}</td>
-            <td><span class="blooms-tag bg-secondary text-white">{{ subject_data.bl1 }}</span></td>
-            <td>{{ subject_data.m1 }}</td>
+            <td><span class="blooms-tag" style="background:#6f42c1;color:#fff">{{ subject_data.bl1 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co1 }}</span></td><td>{{ subject_data.m1 }}</td><td class="no-print"></td>
           </tr>
-          <tr class="or-row"><td colspan="4">— OR —</td></tr>
-          <tr class="section-row"><td colspan="4">Q4 — Attempt any</td></tr>
+          <tr class="or-row"><td colspan="6">— OR —</td></tr>
+          <tr class="section-row"><td colspan="6">Q4 — Attempt any</td></tr>
           <tr>
             <td>Q4.a</td><td>{{ subject_data.q4 }}</td>
-            <td><span class="blooms-tag bg-warning text-dark">{{ subject_data.bl4 }}</span></td>
-            <td>{{ subject_data.m4 }}</td>
+            <td><span class="blooms-tag" style="background:#e6a817;color:#1e1b4b">{{ subject_data.bl4 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co4 }}</span></td><td>{{ subject_data.m4 }}</td><td class="no-print"></td>
           </tr>
           <tr>
             <td>Q4.b</td><td>{{ subject_data.q2 }}</td>
-            <td><span class="blooms-tag bg-danger text-white">{{ subject_data.bl2 }}</span></td>
-            <td>{{ subject_data.m2 }}</td>
+            <td><span class="blooms-tag" style="background:#dc3545;color:#fff">{{ subject_data.bl2 }}</span></td>
+            <td><span class="co-tag">{{ subject_data.co2 }}</span></td><td>{{ subject_data.m2 }}</td><td class="no-print"></td>
           </tr>
         </tbody>
-
       </table>
     </div>
 
-    <div style="padding:.8rem 1.5rem;border-top:1px solid #ddd;text-align:center;" class="no-print">
-      <small class="text-muted">Generated by Bloom's Taxonomy Question Paper Generator &mdash; AI powered &bull; Quality Score: <strong>{{ quality_grade }}</strong> ({{ quality_score }}/100)</small>
+    <div style="padding:.6rem 1.5rem;border-top:1px solid #ddd;text-align:center;font-size:.72rem;color:#888" class="no-print">
+      Generated by Bloom's Taxonomy Question Paper Generator &mdash; SPPU Format &bull; Quality: <strong>{{ quality_grade }}</strong> ({{ quality_score }}/100) &bull; HOT: {{ hot_pct }}%
     </div>
   </div><!-- /paper-card -->
 
-</div><!-- /container -->
+</div>
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-// ── Bloom's Doughnut Chart ────────────────────────────────────────────────
-const labels  = {{ chart_labels|safe }};
-const data    = {{ chart_data|safe }};
-const colors  = {{ chart_colors|safe }};
+const PAPER_ID    = {{ subject_data.pk }};
+const SUBJECT     = "{{ subject_data.subject_name|escapejs }}";
+const EXAM_TYPE   = "{{ subject_data.exam_type|escapejs }}";
+const CSRF_TOKEN  = '{{ csrf_token }}';
 
-const ctx = document.getElementById('bloomsChart').getContext('2d');
-new Chart(ctx, {
+// ── Bloom's Doughnut ─────────────────────────────────────────────────────
+const blLabels = {{ chart_labels|safe }};
+const blData   = {{ chart_data|safe }};
+const blColors = {{ chart_colors|safe }};
+new Chart(document.getElementById('bloomsChart').getContext('2d'), {
   type: 'doughnut',
-  data: {
-    labels,
-    datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    cutout: '65%',
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: ctx => ` ${ctx.label}: ${ctx.raw} question${ctx.raw > 1 ? 's' : ''}`
-        }
-      }
-    }
-  }
+  data: { labels: blLabels, datasets: [{ data: blData, backgroundColor: blColors, borderWidth: 2, borderColor: 'transparent' }] },
+  options: { responsive:true, cutout:'65%', plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: c=>` ${c.label}: ${c.raw}` } } } }
 });
-
-// Custom legend
 const legendEl = document.getElementById('chart-legend');
-labels.forEach((l, i) => {
-  legendEl.innerHTML += `
-    <div class="d-flex align-items-center gap-2 mb-1">
-      <div style="width:12px;height:12px;border-radius:3px;background:${colors[i]};flex-shrink:0"></div>
-      <span style="font-size:.8rem">${l} <span class="text-muted">(${data[i]})</span></span>
-    </div>`;
+blLabels.forEach((l,i) => {
+  legendEl.innerHTML += `<div class="d-flex align-items-center gap-1 mb-1"><div style="width:9px;height:9px;border-radius:50%;background:${blColors[i]};flex-shrink:0"></div>${l} <span class="text-muted">(${blData[i]})</span></div>`;
 });
 
-// ── Set A / Set B Toggle ──────────────────────────────────────────────────
+// ── CO Bar Chart ─────────────────────────────────────────────────────────
+const coLabels = {{ co_chart_labels|safe }};
+const coData   = {{ co_chart_data|safe }};
+const coColors = ['#6366f1','#06b6d4','#10b981','#f59e0b','#ef4444','#8b5cf6'];
+new Chart(document.getElementById('coChart').getContext('2d'), {
+  type: 'bar',
+  data: { labels: coLabels, datasets: [{ data: coData, backgroundColor: coColors.slice(0,coLabels.length), borderRadius:4 }] },
+  options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1 } }, x:{ grid:{display:false} } } }
+});
+const coLegendEl = document.getElementById('co-legend');
+coLabels.forEach((l,i) => {
+  coLegendEl.innerHTML += `<div class="d-flex align-items-center gap-1 mb-1"><div class="co-dot" style="background:${coColors[i]}"></div>${l}: ${coData[i]}q</div>`;
+});
+
+// ── Set A / Set B ─────────────────────────────────────────────────────────
 function showSet(set) {
   document.getElementById('setA').style.display = set === 'A' ? '' : 'none';
   document.getElementById('setB').style.display = set === 'B' ? '' : 'none';
   document.getElementById('btnSetA').classList.toggle('active', set === 'A');
   document.getElementById('btnSetB').classList.toggle('active', set === 'B');
+}
+
+// ── Per-question Swap ─────────────────────────────────────────────────────
+function swapQ(qNum, btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm" style="width:.7rem;height:.7rem"></span>';
+
+  const fd = new FormData();
+  fd.append('paper_id', PAPER_ID);
+  fd.append('q_num', qNum);
+  fd.append('csrfmiddlewaretoken', CSRF_TOKEN);
+
+  fetch('/ajax/swap_question', { method: 'POST', body: fd })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Swap';
+      if (data.error) { alert('Swap failed: ' + data.error); return; }
+      // Update the question row
+      const row = btn.closest('tr');
+      row.querySelector('.q-text').textContent = data.question;
+      const btag = row.querySelector('.blooms-tag');
+      btag.textContent = data.blooms;
+      row.querySelector('.co-tag').textContent = data.co;
+      // Flash highlight
+      row.style.transition = 'background .4s';
+      row.style.background = '#e0e7ff';
+      setTimeout(() => { row.style.background = ''; }, 1200);
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Swap';
+    });
+}
+
+// ── PDF Download ──────────────────────────────────────────────────────────
+async function downloadPDF() {
+  const btn = document.getElementById('downloadBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Preparing…';
+
+  try {
+    const { jsPDF } = window.jspdf;
+    // Force light background for PDF capture
+    const card = document.getElementById('paperCard');
+    const prevBg = card.style.background;
+    card.style.background = '#fff';
+    card.style.color = '#000';
+
+    const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false });
+    card.style.background = prevBg;
+    card.style.color = '';
+
+    const imgData   = canvas.toDataURL('image/png');
+    const doc       = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW     = 210, pageH = 297;
+    const imgH      = (canvas.height * pageW) / canvas.width;
+    let   posY      = 0, remaining = imgH;
+
+    doc.addImage(imgData, 'PNG', 0, posY, pageW, imgH);
+    remaining -= pageH;
+    while (remaining > 0) {
+      posY -= pageH;
+      doc.addPage();
+      doc.addImage(imgData, 'PNG', 0, posY, pageW, imgH);
+      remaining -= pageH;
+    }
+    doc.save(`${SUBJECT}_${EXAM_TYPE}.pdf`);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-file-earmark-pdf me-1"></i>Download PDF';
+  }
 }
 </script>
 {% endblock %}

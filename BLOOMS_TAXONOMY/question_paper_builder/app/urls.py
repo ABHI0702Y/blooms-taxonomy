@@ -11,8 +11,11 @@ urlpatterns = [
     path("history",        views.history,     name="history"),
     path("paper/<int:pk>", views.view_paper,  name="view_paper"),
 
+    path("paper/<int:pk>/delete", views.delete_paper, name="delete_paper"),
+
     # AJAX endpoints
-    path("ajax/branches",    views.get_branches,  name="get_branches"),
-    path("ajax/subjects",    views.get_subjects,  name="get_subjects"),
-    path("ajax/preview_csv", views.preview_csv,   name="preview_csv"),
+    path("ajax/branches",       views.get_branches,   name="get_branches"),
+    path("ajax/subjects",       views.get_subjects,   name="get_subjects"),
+    path("ajax/preview_csv",    views.preview_csv,    name="preview_csv"),
+    path("ajax/swap_question",  views.swap_question,  name="swap_question"),
 ]

@@ -2,13 +2,16 @@
 {% block title %}Paper History{% endblock %}
 {% block extra_head %}
 <style>
-  .history-card { max-width: 960px; margin: 2rem auto; }
+  .history-card { max-width: 1000px; margin: 2rem auto; }
   .paper-row { transition: .15s; }
   .paper-row:hover { background: #f0f4ff; }
   .subject-badge { font-size: .75rem; background: #ede9fe; color: #3730a3; border-radius: 20px; padding: 2px 10px; font-weight: 600; }
   .exam-badge { font-size: .72rem; border-radius: 20px; padding: 2px 10px; }
   .empty-state { text-align: center; padding: 4rem 2rem; color: #999; }
   .empty-state i { font-size: 4rem; color: #c5cae9; }
+  [data-bs-theme="dark"] .paper-row:hover { background: #1e1c35 !important; }
+  [data-bs-theme="dark"] .subject-badge { background: #2d2b4e !important; color: #a5b4fc !important; }
+  [data-bs-theme="dark"] thead { background: linear-gradient(90deg,#1e1b4b,#3730a3) !important; }
 </style>
 {% endblock %}
 
@@ -31,7 +34,7 @@
             <th class="ps-3">#</th>
             <th>Subject</th>
             <th>Branch / College</th>
-            <th>Semester</th>
+            <th>Sem</th>
             <th>Faculty</th>
             <th>Exam</th>
             <th>Date</th>
@@ -42,7 +45,10 @@
           {% for paper in papers %}
           <tr class="paper-row align-middle">
             <td class="ps-3 text-muted">{{ forloop.counter }}</td>
-            <td><span class="subject-badge">{{ paper.subject_name }}</span></td>
+            <td>
+              <span class="subject-badge">{{ paper.subject_name }}</span>
+              {% if paper.course_code %}<div class="text-muted" style="font-size:.7rem;margin-top:2px">{{ paper.course_code }}</div>{% endif %}
+            </td>
             <td>
               <div class="fw-500">{{ paper.branch_name }}</div>
               <div class="text-muted" style="font-size:.78rem">{{ paper.college_name }}</div>
@@ -52,9 +58,13 @@
             <td><span class="exam-badge bg-info text-dark">{{ paper.exam_type }}</span></td>
             <td>{{ paper.date }}</td>
             <td>
-              <a href="/paper/{{ paper.pk }}" class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-eye"></i> View
-              </a>
+              <div class="d-flex gap-1">
+                <a href="/paper/{{ paper.pk }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                <form method="post" action="/paper/{{ paper.pk }}/delete" onsubmit="return confirm('Delete this paper?')">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+              </div>
             </td>
           </tr>
           {% endfor %}

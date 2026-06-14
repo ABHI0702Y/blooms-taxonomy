@@ -34,6 +34,13 @@ class question_paper_form(forms.Form):
         }),
         required=False,
     )
+    course_code = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'e.g. 410241 (optional)',
+        }),
+        required=False,
+    )
     exam_type = forms.ChoiceField(
         choices=EXAM_TYPE_CHOICES,
         widget=forms.Select(attrs={'class': 'form-control'}),

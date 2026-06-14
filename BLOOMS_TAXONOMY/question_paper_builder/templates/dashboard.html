@@ -8,11 +8,30 @@
   .upload-zone { border: 2px dashed #c4b5fd; border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; background: #faf5ff; transition: .2s; }
   .upload-zone:hover { border-color: #4f46e5; background: #ede9fe; }
   .upload-zone i { font-size: 2rem; color: #4f46e5; }
-  select:disabled { background: #e9ecef; }
   .blooms-info { background: linear-gradient(135deg,#1e1b4b,#3730a3); border-radius: 10px; padding: 1.1rem 1.3rem; color: #fff; }
   .blooms-info .bl-badge { display: inline-block; border-radius: 20px; padding: 3px 12px; font-size: .72rem; font-weight: 700; margin: 3px 2px; }
   .form-select, .form-control { border-color: #c4b5fd; }
   .form-select:focus, .form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 .2rem rgba(79,70,229,.2); }
+
+  /* Dark mode overrides */
+  [data-bs-theme="dark"] .section-label { color: #7c7ca8; }
+  [data-bs-theme="dark"] .upload-zone { background: #1a1440 !important; border-color: #4c3a8c !important; color: #a5b4fc; }
+  [data-bs-theme="dark"] .upload-zone:hover { background: #221952 !important; border-color: #7c3aed !important; }
+  [data-bs-theme="dark"] .upload-zone i { color: #818cf8; }
+  [data-bs-theme="dark"] .card { border: 1px solid #2d2b4e; }
+  [data-bs-theme="dark"] h4, [data-bs-theme="dark"] h5 { color: #c7d2fe !important; }
+  [data-bs-theme="dark"] code { color: #f9a8d4; background: #2d1a3e; padding: 1px 5px; border-radius: 3px; }
+
+  /* Loading overlay */
+  #genOverlay {
+    display: none; position: fixed; inset: 0; z-index: 10000;
+    background: rgba(10,9,23,.88); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; flex-direction: column;
+  }
+  #genOverlay.show { display: flex; }
+  .gen-spinner { width: 56px; height: 56px; border: 4px solid rgba(99,102,241,.2); border-top-color: #6366f1; border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .gen-step { font-size: .82rem; color: #94a3b8; margin-top: 6px; min-height: 1.2em; transition: opacity .3s; }
 </style>
 {% endblock %}
 
@@ -193,6 +212,24 @@ document.getElementById('id_qb').addEventListener('change', function () {
   document.getElementById('preview-btn-wrap').style.display = this.files.length ? 'block' : 'none';
 });
 
+// ── Loading overlay on submit ─────────────────────────────────────────────
+const GEN_STEPS = [
+  'Reading question bank…',
+  'Predicting difficulty levels…',
+  'Classifying Bloom\'s taxonomy…',
+  'Assembling 10-question paper…',
+];
+document.getElementById('paperForm').addEventListener('submit', function() {
+  const overlay = document.getElementById('genOverlay');
+  const stepEl  = document.getElementById('genStep');
+  overlay.classList.add('show');
+  let i = 0;
+  setInterval(function() {
+    i = (i + 1) % GEN_STEPS.length;
+    stepEl.textContent = GEN_STEPS[i];
+  }, 1400);
+});
+
 // ── CSV Preview with AI ───────────────────────────────────────────────────
 const LEVEL_COLORS = {
   'Remember':   'primary',
@@ -253,6 +290,13 @@ function previewCSV() {
     });
 }
 </script>
+
+<!-- Loading Overlay -->
+<div id="genOverlay">
+  <div class="gen-spinner mb-4"></div>
+  <h5 class="text-white mb-1 fw-bold">Generating your paper…</h5>
+  <div class="gen-step" id="genStep">Reading question bank</div>
+</div>
 
 <!-- Preview Modal -->
 <div class="modal fade" id="previewModal" tabindex="-1">

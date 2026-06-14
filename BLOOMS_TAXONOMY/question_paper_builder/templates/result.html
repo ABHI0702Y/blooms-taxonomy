@@ -24,6 +24,23 @@
   .set-btn { border: 2px solid #4f46e5; color: #4f46e5; background: #fff; padding: 4px 18px; border-radius: 20px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: .15s; }
   .set-btn.active { background: linear-gradient(135deg,#3730a3,#4f46e5); color: #fff; border-color: #4f46e5; }
 
+  /* Dark mode */
+  [data-bs-theme="dark"] .paper-card { background: #181628 !important; color: #e2e8f0; }
+  [data-bs-theme="dark"] .paper-header { border-color: #3d3b6b !important; }
+  [data-bs-theme="dark"] .paper-header h3 { color: #e2e8f0; }
+  [data-bs-theme="dark"] .paper-header h5 { color: #94a3b8 !important; }
+  [data-bs-theme="dark"] table, [data-bs-theme="dark"] th, [data-bs-theme="dark"] td { border-color: #3d3b6b !important; }
+  [data-bs-theme="dark"] td { color: #e2e8f0; }
+  [data-bs-theme="dark"] .section-row td { background: #2d2b4e !important; color: #a5b4fc !important; }
+  [data-bs-theme="dark"] .or-row td   { background: #2a1525 !important; color: #f87171 !important; }
+  [data-bs-theme="dark"] .analytics-panel { background: #181628 !important; border: 1px solid #2d2b4e; }
+  [data-bs-theme="dark"] .score-bar { background: #2d2b4e !important; }
+  [data-bs-theme="dark"] .set-btn { background: #1e1c35 !important; border-color: #818cf8 !important; color: #818cf8 !important; }
+  [data-bs-theme="dark"] .set-btn.active { background: linear-gradient(135deg,#3730a3,#4f46e5) !important; color: #fff !important; }
+  [data-bs-theme="dark"] div[style*="background:#fffde7"] { background: #1e1c1a !important; color: #e2e8f0 !important; }
+  [data-bs-theme="dark"] div[style*="border-top:1px solid #ddd"] { border-color: #2d2b4e !important; color: #7c7ca8; }
+  [data-bs-theme="dark"] h5[style*="color:#1e1b4b"] { color: #c7d2fe !important; }
+
   @media print {
     .no-print { display: none !important; }
     body { background: #fff !important; }

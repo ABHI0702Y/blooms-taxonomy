@@ -128,9 +128,19 @@ def preview_csv(request):
         model      = pickle.load(open(DATASET_DIR / 'model.pkl', 'rb'))
         vectorizer = pickle.load(open(DATASET_DIR / 'vectorizer.pkl', 'rb'))
 
-        X_new  = vectorizer.transform(reader['question'])
-        y_pred = np.array(model.predict(X_new)).astype(int)
-        reader['predicted_marks'] = y_pred
+        X_new = vectorizer.transform(reader['question'])
+        y_raw = np.array(model.predict(X_new), dtype=float)
+
+        reader = reader.copy()
+        reader['raw_score'] = y_raw
+        reader = reader.sort_values('raw_score').reset_index(drop=True)
+        n_q = len(reader)
+        q   = n_q // 5
+        mark_assignments = []
+        for i, m in enumerate([4, 5, 6, 7, 8]):
+            count = q if i < 4 else n_q - 4 * q
+            mark_assignments.extend([m] * count)
+        reader['predicted_marks'] = mark_assignments
 
         rows = []
         for _, row in reader.iterrows():
@@ -185,20 +195,28 @@ def dashboard(request):
                 model      = pickle.load(open(DATASET_DIR / 'model.pkl', 'rb'))
                 vectorizer = pickle.load(open(DATASET_DIR / 'vectorizer.pkl', 'rb'))
 
-                reader    = _read_csv(qb)
-                X_new     = vectorizer.transform(reader['question'])
-                y_pred    = np.array(model.predict(X_new)).astype(int)
-                reader['predicted_marks'] = y_pred
+                reader = _read_csv(qb)
+                if len(reader) < 10:
+                    messages.error(request, f"CSV needs at least 10 questions (found {len(reader)}).")
+                    return redirect("dashboard")
 
-                # Ensure we have at least 2 questions per mark bucket 4-8
-                buckets = {}
-                for m in [4, 5, 6, 7, 8]:
-                    bucket = reader[reader['predicted_marks'] == m]
-                    if len(bucket) < 2:
-                        messages.error(request, f"Not enough questions for {m}-mark category (need at least 2).")
-                        return redirect("dashboard")
-                    buckets[m] = bucket
+                X_new  = vectorizer.transform(reader['question'])
+                y_raw  = np.array(model.predict(X_new), dtype=float)
 
+                # Sort by predicted difficulty (easy → hard) and assign marks
+                # proportionally across 5 tiers (4–8) regardless of raw ML values.
+                reader = reader.copy()
+                reader['raw_score'] = y_raw
+                reader = reader.sort_values('raw_score').reset_index(drop=True)
+                n = len(reader)
+                q = n // 5
+                mark_assignments = []
+                for i, m in enumerate([4, 5, 6, 7, 8]):
+                    count = q if i < 4 else n - 4 * q
+                    mark_assignments.extend([m] * count)
+                reader['predicted_marks'] = mark_assignments
+
+                buckets = {m: reader[reader['predicted_marks'] == m] for m in [4, 5, 6, 7, 8]}
                 selected_data = pd.concat([
                     buckets[8].sample(n=2, random_state=24),
                     buckets[7].sample(n=2, random_state=24),
@@ -209,7 +227,7 @@ def dashboard(request):
 
                 blooms_level = []
                 for _, row in selected_data[['question']].iterrows():
-                    vec   = blooms_vector.transform(row)
+                    vec   = blooms_vector.transform([row['question']])
                     level = blooms_model.predict(vec)[0]
                     blooms_level.append(level)
 
